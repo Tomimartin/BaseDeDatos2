@@ -2,13 +2,20 @@
 
 Repositorio: `https://github.com/Tomimartin/BaseDeDatos2`
 
+Partes del trabajo:
+
+- **Parte 0** — Protocolo de seguridad: `protocolo_seguridad.md`
+- **Parte 1** — Restricciones de integridad: `base_food_store.sql` + informe
+- **Parte 2** — Concurrencia: `informe_concurrencia.md`
+- **Parte 3** — Lectura crítica: `ejercicio_lectura_critica.md`
+
 ---
 
 ## 1. Script de restricciones commiteado
 
-El script commiteado es `tp2/schema_food_store.sql` (PostgreSQL). Contiene el
-esquema completo de la tienda (`forma_pago_enum`, `categoria`, `cliente`,
-`producto`, `pedido`, `detalle_pedido`) más los índices.
+El script commiteado es `base_food_store.sql` (PostgreSQL 17). Contiene el esquema
+completo de la tienda (`forma_pago_enum`, `categoria`, `cliente`, `producto`,
+`pedido`, `detalle_pedido`) con datos de ejemplo, más los índices.
 
 ### Restricciones de integridad del script
 
@@ -32,30 +39,57 @@ Otras restricciones preexistentes (sin cambios):
 | `detalle_pedido` | `fk_detalle_pedido` | `FOREIGN KEY (id_pedido) REFERENCES pedido(id_pedido) ON DELETE CASCADE` |
 | `detalle_pedido` | `fk_detalle_producto` | `FOREIGN KEY (id_producto) REFERENCES producto(id_producto) ON DELETE RESTRICT` |
 
+### Evidencia de verificación
+
+Las pruebas de existencia de las restricciones y los casos válidos e inválidos
+con sus salidas completas están en `verificacion_restricciones.md`.
+
 ---
 
 ## 2. Historial de commits (`git log`)
 
 ```
-862c8e1 Initial commit
-8f70cd9 Agrega esquema de la base de datos
+d8cada8 Initial commit
+5858cd8 Agrega esquema de la base de datos
+c68b325 Agrega informe del TP2 con DUIA
+e3f4c05 actualizo los archivos del TP2
+6561f18 Completa resultados reales de los escenarios de concurrencia
 ```
 
 Detalle del commit que incorpora las restricciones:
 
 ```
-Commit: 8f70cd9f39bbddd6e47e5e84019d8b9c295dca3f
+Commit: 5858cd8
 Mensaje: Agrega esquema de la base de datos
-Autor: Ignacio Martin <ignaciojmm2001@gmail.com>
+Autor: Santiago Tomas Martin Montaner <santitomimartin14@gmail.com>
 Fecha: 2026-09-08 15:42:55 -0300
 Archivos: tp2/AGENTS.md, tp2/schema_food_store - copia.sql, tp2/schema_food_store.sql
 ```
 
-El commit se pusheó a `origin/main` del repositorio remoto de `Tomimartin`.
+Aclaración sobre la evolución del esquema:
+
+- El commit `5858cd8` incorporó el esquema con las restricciones en
+  `tp2/schema_food_store.sql`.
+- El commit `e3f4c05` reorganizó el repositorio: el esquema quedó como
+  `base_food_store.sql` (dump de PostgreSQL generado desde la base real sobre la
+  que se aplicaron las restricciones).
+- El commit `6561f18` volcó los resultados reales de los escenarios de concurrencia
+  y `git push` subió todo a `origin/main` del repositorio remoto.
+
+### Comando y salida real de la verificación
+
+```
+$ git log --oneline --all
+6561f18 Completa resultados reales de los escenarios de concurrencia
+e3f4c05 actualizo los archivos del TP2
+c68b325 Agrega informe del TP2 con DUIA
+5858cd8 Agrega esquema de la base de datos
+d8cada8 Initial commit
+```
 
 ---
 
-## 3. DUIA — Documento Único de Informe de Actividad
+## 3. DUIA — Documento Único de Informe de Actividad (Parte 1)
 
 ### 3.1 Herramienta
 
@@ -71,7 +105,7 @@ el repositorio Git y verificar los cambios.
 
 ### 3.3 Resumen de lo propuesto
 
-Frente a cada spec, se propuso la siguiente solución sobre `tp2/schema_food_store.sql`:
+Frente a cada spec, se propuso la siguiente solución sobre `base_food_store.sql`:
 
 - **Spec 1** — Agregar una restricción `CHECK (TRIM(nombre) <> '')` en la tabla
   `categoria` (nombre de constraint: `ck_categoria_nombre_no_blanco`). Se eligió
@@ -94,14 +128,19 @@ Frente a cada spec, se propuso la siguiente solución sobre `tp2/schema_food_sto
 | Spec 2 | `precio >= 0` → `precio > 0` con rename a `ck_producto_precio_positivo` | Generado y commiteado |
 | Spec 3 | `CONSTRAINT ck_pedido_fecha_no_futura CHECK (fecha <= now())` agregada en `pedido` | Generado y commiteado |
 
+Las tres restricciones se aplicaron sobre la base `foodstorecopia` (copia de
+trabajo) con `ALTER TABLE`, se verificaron con casos válidos e inválidos y el
+esquema resultante se volcó a `base_food_store.sql`.
+
 Trabajo adicional realizado y aceptado:
 
 - Configuración de Git: el repositorio local estaba inicializado; se clonó
   `https://github.com/Tomimartin/BaseDeDatos2` reemplazando la carpeta (con
   backup previo del trabajo en `C:\Users\ignac\AppData\Local\Temp\opencode\BaseDeDatos2_backup`).
-- Se restauró `tp2/` desde el backup y se subió al remoto con
-  `git add + commit + push` (commit `8f70cd9`).
 - Se resolvió un conflicto de autenticación: el Git Credential Manager guardaba
   la sesión de la cuenta `Nacho5901`, que no tiene permisos sobre el repo. Se
   deslogueó con `git credential-manager github logout Nacho5901` y se re-pusheó
   autenticando con la cuenta `Tomimartin`.
+
+Las DUIA de la Parte 2 y de la Parte 3 se encuentran en
+`informe_concurrencia.md` y `ejercicio_lectura_critica.md` respectivamente.

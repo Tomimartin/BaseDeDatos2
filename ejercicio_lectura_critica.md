@@ -69,3 +69,16 @@ WHERE NOT EXISTS (
 ## Conclusión
 
 Los dos ejemplos muestran por qué un script debe leerse antes de ejecutarse. El primero puede modificar muchas más filas de las necesarias por no tener `WHERE`, y el segundo puede dar un resultado incorrecto por el comportamiento de `NOT IN` frente a valores `NULL`.
+
+---
+
+## DUIA — Parte 3
+
+| Campo | Detalle |
+|---|---|
+| Herramienta | OpenCode |
+| Uso realizado | Identificar los riesgos de ambos scripts de lectura crítica y proponer las versiones corregidas. |
+| Escenarios | Script 1 (`UPDATE funcion` sin `WHERE`) y Script 2 (`DELETE FROM categoria` con `NOT IN`). |
+| Qué se aceptó | El análisis de riesgos y las versiones corregidas con `WHERE` y `NOT EXISTS`. |
+| Qué se modificó | Se redactó el archivo `ejercicio_lectura_critica.md` con el script original, la explicación del problema y la corrección para cada caso. |
+| Verificación | Análisis manual sobre el esquema de referencia (tablas `funcion` y `pelicula` / `categoria` y `producto`). |

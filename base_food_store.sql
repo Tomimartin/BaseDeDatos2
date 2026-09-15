@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict 715r1NkAcwLtMJlDvLwpKzNIhHfy6tlgHfRq2WLJn0NwY1Uem9N4QQQhSetZfJ9
+\restrict V5CPfMx0vTVQmCPCoK3gUeo6hyeetLLYyyv0qQib8kL6yzHC5bXdRUw0hVHlFDT
 
 -- Dumped from database version 17.11
 -- Dumped by pg_dump version 17.11
@@ -20,7 +20,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: forma_pago_enum; Type: TYPE; Schema: public; Owner: postgres
+-- Name: forma_pago_enum; Type: TYPE; Schema: public; Owner: -
 --
 
 CREATE TYPE public.forma_pago_enum AS ENUM (
@@ -30,27 +30,24 @@ CREATE TYPE public.forma_pago_enum AS ENUM (
 );
 
 
-ALTER TYPE public.forma_pago_enum OWNER TO postgres;
-
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
 
 --
--- Name: categoria; Type: TABLE; Schema: public; Owner: postgres
+-- Name: categoria; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.categoria (
     id_categoria bigint NOT NULL,
     nombre character varying(80) NOT NULL,
-    activo boolean DEFAULT true NOT NULL
+    activo boolean DEFAULT true NOT NULL,
+    CONSTRAINT ck_categoria_nombre_no_blanco CHECK ((TRIM(BOTH FROM nombre) <> ''::text))
 );
 
 
-ALTER TABLE public.categoria OWNER TO postgres;
-
 --
--- Name: categoria_id_categoria_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: categoria_id_categoria_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public.categoria ALTER COLUMN id_categoria ADD GENERATED ALWAYS AS IDENTITY (
@@ -64,7 +61,7 @@ ALTER TABLE public.categoria ALTER COLUMN id_categoria ADD GENERATED ALWAYS AS I
 
 
 --
--- Name: cliente; Type: TABLE; Schema: public; Owner: postgres
+-- Name: cliente; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.cliente (
@@ -76,10 +73,8 @@ CREATE TABLE public.cliente (
 );
 
 
-ALTER TABLE public.cliente OWNER TO postgres;
-
 --
--- Name: cliente_id_cliente_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: cliente_id_cliente_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public.cliente ALTER COLUMN id_cliente ADD GENERATED ALWAYS AS IDENTITY (
@@ -93,7 +88,7 @@ ALTER TABLE public.cliente ALTER COLUMN id_cliente ADD GENERATED ALWAYS AS IDENT
 
 
 --
--- Name: detalle_pedido; Type: TABLE; Schema: public; Owner: postgres
+-- Name: detalle_pedido; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.detalle_pedido (
@@ -107,24 +102,21 @@ CREATE TABLE public.detalle_pedido (
 );
 
 
-ALTER TABLE public.detalle_pedido OWNER TO postgres;
-
 --
--- Name: pedido; Type: TABLE; Schema: public; Owner: postgres
+-- Name: pedido; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.pedido (
     id_pedido bigint NOT NULL,
     fecha timestamp with time zone DEFAULT now() NOT NULL,
     forma_pago public.forma_pago_enum NOT NULL,
-    id_cliente bigint NOT NULL
+    id_cliente bigint NOT NULL,
+    CONSTRAINT ck_pedido_fecha_no_futura CHECK ((fecha <= now()))
 );
 
 
-ALTER TABLE public.pedido OWNER TO postgres;
-
 --
--- Name: pedido_id_pedido_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: pedido_id_pedido_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public.pedido ALTER COLUMN id_pedido ADD GENERATED ALWAYS AS IDENTITY (
@@ -138,7 +130,7 @@ ALTER TABLE public.pedido ALTER COLUMN id_pedido ADD GENERATED ALWAYS AS IDENTIT
 
 
 --
--- Name: producto; Type: TABLE; Schema: public; Owner: postgres
+-- Name: producto; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.producto (
@@ -149,15 +141,13 @@ CREATE TABLE public.producto (
     stock integer DEFAULT 0 NOT NULL,
     activo boolean DEFAULT true NOT NULL,
     id_categoria bigint NOT NULL,
-    CONSTRAINT ck_producto_precio_no_negativo CHECK ((precio >= (0)::numeric)),
+    CONSTRAINT ck_producto_precio_positivo CHECK ((precio > (0)::numeric)),
     CONSTRAINT ck_producto_stock_no_negativo CHECK ((stock >= 0))
 );
 
 
-ALTER TABLE public.producto OWNER TO postgres;
-
 --
--- Name: producto_id_producto_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: producto_id_producto_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public.producto ALTER COLUMN id_producto ADD GENERATED ALWAYS AS IDENTITY (
@@ -171,7 +161,7 @@ ALTER TABLE public.producto ALTER COLUMN id_producto ADD GENERATED ALWAYS AS IDE
 
 
 --
--- Data for Name: categoria; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: categoria; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.categoria (id_categoria, nombre, activo) FROM stdin;
@@ -183,7 +173,7 @@ COPY public.categoria (id_categoria, nombre, activo) FROM stdin;
 
 
 --
--- Data for Name: cliente; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: cliente; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.cliente (id_cliente, nombre, apellido, email, telefono) FROM stdin;
@@ -195,7 +185,7 @@ COPY public.cliente (id_cliente, nombre, apellido, email, telefono) FROM stdin;
 
 
 --
--- Data for Name: detalle_pedido; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: detalle_pedido; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.detalle_pedido (id_pedido, id_producto, cantidad, precio_unitario) FROM stdin;
@@ -207,7 +197,7 @@ COPY public.detalle_pedido (id_pedido, id_producto, cantidad, precio_unitario) F
 
 
 --
--- Data for Name: pedido; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: pedido; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.pedido (id_pedido, fecha, forma_pago, id_cliente) FROM stdin;
@@ -218,7 +208,7 @@ COPY public.pedido (id_pedido, fecha, forma_pago, id_cliente) FROM stdin;
 
 
 --
--- Data for Name: producto; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: producto; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.producto (id_producto, nombre, descripcion, precio, stock, activo, id_categoria) FROM stdin;
@@ -236,35 +226,35 @@ COPY public.producto (id_producto, nombre, descripcion, precio, stock, activo, i
 
 
 --
--- Name: categoria_id_categoria_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: categoria_id_categoria_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.categoria_id_categoria_seq', 4, true);
 
 
 --
--- Name: cliente_id_cliente_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: cliente_id_cliente_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.cliente_id_cliente_seq', 4, true);
 
 
 --
--- Name: pedido_id_pedido_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: pedido_id_pedido_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.pedido_id_pedido_seq', 3, true);
 
 
 --
--- Name: producto_id_producto_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: producto_id_producto_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.producto_id_producto_seq', 10, true);
 
 
 --
--- Name: categoria categoria_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: categoria categoria_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.categoria
@@ -272,7 +262,7 @@ ALTER TABLE ONLY public.categoria
 
 
 --
--- Name: cliente cliente_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: cliente cliente_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cliente
@@ -280,7 +270,7 @@ ALTER TABLE ONLY public.cliente
 
 
 --
--- Name: pedido pedido_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: pedido pedido_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.pedido
@@ -288,7 +278,7 @@ ALTER TABLE ONLY public.pedido
 
 
 --
--- Name: detalle_pedido pk_detalle_pedido; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: detalle_pedido pk_detalle_pedido; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.detalle_pedido
@@ -296,7 +286,7 @@ ALTER TABLE ONLY public.detalle_pedido
 
 
 --
--- Name: producto producto_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: producto producto_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.producto
@@ -304,7 +294,7 @@ ALTER TABLE ONLY public.producto
 
 
 --
--- Name: cliente uq_cliente_email; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: cliente uq_cliente_email; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cliente
@@ -312,21 +302,21 @@ ALTER TABLE ONLY public.cliente
 
 
 --
--- Name: idx_pedido_id_cliente; Type: INDEX; Schema: public; Owner: postgres
+-- Name: idx_pedido_id_cliente; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX idx_pedido_id_cliente ON public.pedido USING btree (id_cliente);
 
 
 --
--- Name: idx_producto_categoria_activo; Type: INDEX; Schema: public; Owner: postgres
+-- Name: idx_producto_categoria_activo; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX idx_producto_categoria_activo ON public.producto USING btree (id_categoria) WHERE (activo = true);
 
 
 --
--- Name: detalle_pedido fk_detalle_pedido; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: detalle_pedido fk_detalle_pedido; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.detalle_pedido
@@ -334,7 +324,7 @@ ALTER TABLE ONLY public.detalle_pedido
 
 
 --
--- Name: detalle_pedido fk_detalle_producto; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: detalle_pedido fk_detalle_producto; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.detalle_pedido
@@ -342,7 +332,7 @@ ALTER TABLE ONLY public.detalle_pedido
 
 
 --
--- Name: pedido fk_pedido_cliente; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: pedido fk_pedido_cliente; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.pedido
@@ -350,7 +340,7 @@ ALTER TABLE ONLY public.pedido
 
 
 --
--- Name: producto fk_producto_categoria; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: producto fk_producto_categoria; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.producto
@@ -361,5 +351,5 @@ ALTER TABLE ONLY public.producto
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 715r1NkAcwLtMJlDvLwpKzNIhHfy6tlgHfRq2WLJn0NwY1Uem9N4QQQhSetZfJ9
+\unrestrict V5CPfMx0vTVQmCPCoK3gUeo6hyeetLLYyyv0qQib8kL6yzHC5bXdRUw0hVHlFDT
 
