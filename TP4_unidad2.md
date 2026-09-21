@@ -187,3 +187,18 @@ EXCEPT
     )
 );
 ```
+
+---
+
+# Declaración de Uso de IA (DUIA) - Trabajo Práctico Semana 4
+
+**Asignatura:** Base de Datos II  
+**Tema:** Reportes analíticos asistidos por IA sobre Food Store (joins, subconsultas, agregación y ventana)
+
+| Herramienta | Para qué se usó | Prompt / Spec (resumen) | Se aceptó / Se descartó (por qué) |
+| :--- | :--- | :--- | :--- |
+| **OpenCode** | Propuesta de índices para optimizar consultas analíticas con múltiples JOINs (Parte 1). | *"Analizá los planes de EXPLAIN ANALYZE iniciales para dos consultas de reporte (Facturación mensual por categoría y Ranking histórico de clientes) que cruzan múltiples tablas, e indicá qué índices crear para bajar el tiempo de ejecución."* | **Se aceptó:** Se implementaron los índices propuestos (`idx_pedido_fecha`, `idx_detalle_pedido_prod_cover`, `idx_pedido_cliente_pedido`). En la Consulta 1 la mejora fue de 1.27x. En la Consulta 2, la mejora fue leve (1.02x) porque el optimizador prefirió mantener los escaneos secuenciales paralelos y `Hash Join` dado el gran volumen de datos a agrupar. |
+| **OpenCode** | Explicación en lenguaje natural de un plan con múltiples JOINs (Parte 2). | *"Explicá nodo por nodo en lenguaje natural el plan de ejecución obtenido para la consulta del ranking histórico de clientes."* | **Se descartó (la explicación):** Se detectaron múltiples errores conceptuales. La IA afirmó que se usó un `Nested Loop` cuando el plan indicaba `Hash Join`; invirtió el orden de las tablas en la fase de construcción (build) y exploración (probe); y confundió el costo estimado con el tiempo en milisegundos. Solo acertó en que el nodo `HashAggregate` debió usar disco por falta de memoria. |
+| **OpenCode** | Generación de la **Consulta A** (Ranking con función de ventana) bajo especificación precisa (Parte 3). | **Spec:** *"Generar una consulta SQL sobre Food Store que devuelva, para cada cliente, su ID, nombre completo, total gastado y su puesto en un ranking usando DENSE_RANK(). En caso de empate, deben compartir posición. Evitar SELECT \*."* | **Se aceptó con ajustes:** La IA generó correctamente la lógica usando una CTE (Common Table Expression). Sin embargo, se debió eliminar el filtro propuesto `cl.activo = TRUE` ya que, al validar contra el esquema real, la columna no existía. Tras el ajuste, se comprobó su equivalencia absoluta contra una versión con subconsulta derivada usando `EXCEPT` (0 filas de diferencia). |
+| **OpenCode** | Generación de la **Consulta B** (Subconsulta correlacionada) bajo especificación precisa (Parte 3). | **Spec:** *"Generar una consulta SQL sobre Food Store que obtenga las categorías activas devolviendo su ID y nombre, únicamente si cuentan con al menos un producto con precio unitario superior al precio promedio global. Usar EXISTS. Evitar SELECT \*."* | **Se aceptó:** La IA estructuró de manera correcta la subconsulta correlacionada. Se verificó formalmente la equivalencia estricta contra una versión alternativa desarrollada manualmente (utilizando `JOIN` y `DISTINCT`) mediante la cláusula `EXCEPT` en ambos sentidos, resultando en 0 diferencias. |
+| **Kiro** | *(No utilizado)* | N/A | **No aplica:** Todas las interacciones de este trabajo práctico se centralizaron exclusivamente en OpenCode. |
