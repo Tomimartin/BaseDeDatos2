@@ -19,3 +19,171 @@
 | *"En la unión paralela con detalle_pedido, la tabla interna (build phase) utilizada para armar la tabla Hash fue detalle_pedido."* | **No** | En el nodo `Parallel Hash Join`, la tabla bajo el nodo `Parallel Hash` es **`pedido`** (`Parallel Seq Scan on pedido p`), confirmando que `pedido` fue la tabla interna para la estructura Hash. |
 | *"El tiempo de ejecución consumido por el nodo de Hash Join paralelo fue de 7270.43 milisegundos."* | **No** | Confunde el **costo estimado arbitrario** (`cost=4118.10..7270.43`) con milisegundos reales. El tiempo real registrado fue de **31.193 ms a 90.444 ms** (`actual time=31.193..90.444`). |
 | *"El agrupamiento HashAggregate no cupo completamente en la memoria RAM y tuvo que utilizar disco."* | **Sí** | Correcto. La presencia explícita de **`Disk Usage: 720kB`** en los nodos `HashAggregate` confirma el desborde de *work_mem* hacia archivos temporales en disco. |
+
+---
+
+# Parte 3: Consultas Resumen, Rankings y Subconsultas bajo Especificación Precisa (Semana 4)
+
+---
+
+## 1. Consulta A: Ranking con Función de Ventana (`DENSE_RANK`)
+
+### Especificación Precisa (Spec)
+> Generar una consulta SQL sobre el esquema de Food Store que devuelva, para cada cliente, su ID de cliente, su nombre completo (concatenando `nombre` y `apellido`), el total acumulado gastado en sus compras (`SUM(dp.subtotal)`) y su puesto en un ranking de mayor a menor gasto usando la función de ventana `DENSE_RANK()`. En caso de empate en el total gastado, deben compartir la misma posición sin saltar números. Evitar el uso de `SELECT *`.
+
+### Versión 1 (Generada por IA - Uso de CTE)
+```sql
+WITH gasto_cliente AS (
+    SELECT 
+        cl.id_cliente,
+        cl.nombre || ' ' || cl.apellido AS nombre_completo,
+        COALESCE(SUM(dp.subtotal), 0) AS total_gastado
+    FROM cliente cl
+    JOIN pedido p ON cl.id_cliente = p.id_cliente
+    JOIN detalle_pedido dp ON p.id_pedido = dp.id_pedido
+    GROUP BY cl.id_cliente, cl.nombre, cl.apellido
+)
+SELECT 
+    id_cliente,
+    nombre_completo,
+    total_gastado,
+    DENSE_RANK() OVER (ORDER BY total_gastado DESC) AS puesto_ranking
+FROM gasto_cliente
+ORDER BY puesto_ranking ASC;
+```
+
+### Versión 2 (Alternativa / Propia - Subconsulta Derivada)
+```sql
+SELECT 
+    sub.id_cliente,
+    sub.nombre_completo,
+    sub.total_gastado,
+    DENSE_RANK() OVER (ORDER BY sub.total_gastado DESC) AS puesto_ranking
+FROM (
+    SELECT 
+        cl.id_cliente,
+        CONCAT(cl.nombre, ' ', cl.apellido) AS nombre_completo,
+        SUM(dp.subtotal) AS total_gastado
+    FROM cliente cl
+    INNER JOIN pedido p ON cl.id_cliente = p.id_cliente
+    INNER JOIN detalle_pedido dp ON p.id_pedido = dp.id_pedido
+    GROUP BY cl.id_cliente, cl.nombre, cl.apellido
+) sub
+ORDER BY puesto_ranking ASC;
+```
+
+### Verificación de Equivalencia (`EXCEPT`)
+```sql
+-- Evaluación V1 EXCEPT V2 (Debe devolver 0 filas)
+(
+    WITH gasto_cliente AS (
+        SELECT 
+            cl.id_cliente,
+            cl.nombre || ' ' || cl.apellido AS nombre_completo,
+            COALESCE(SUM(dp.subtotal), 0) AS total_gastado
+        FROM cliente cl
+        JOIN pedido p ON cl.id_cliente = p.id_cliente
+        JOIN detalle_pedido dp ON p.id_pedido = dp.id_pedido
+        GROUP BY cl.id_cliente, cl.nombre, cl.apellido
+    )
+    SELECT id_cliente, nombre_completo, total_gastado, DENSE_RANK() OVER (ORDER BY total_gastado DESC) AS puesto_ranking 
+    FROM gasto_cliente
+)
+EXCEPT
+(
+    SELECT sub.id_cliente, sub.nombre_completo, sub.total_gastado, DENSE_RANK() OVER (ORDER BY sub.total_gastado DESC) AS puesto_ranking
+    FROM (
+        SELECT cl.id_cliente, CONCAT(cl.nombre, ' ', cl.apellido) AS nombre_completo, SUM(dp.subtotal) AS total_gastado
+        FROM cliente cl INNER JOIN pedido p ON cl.id_cliente = p.id_cliente INNER JOIN detalle_pedido dp ON p.id_pedido = dp.id_pedido
+        GROUP BY cl.id_cliente, cl.nombre, cl.apellido
+    ) sub
+);
+
+-- Evaluación V2 EXCEPT V1 (Debe devolver 0 filas)
+(
+    SELECT sub.id_cliente, sub.nombre_completo, sub.total_gastado, DENSE_RANK() OVER (ORDER BY sub.total_gastado DESC) AS puesto_ranking
+    FROM (
+        SELECT cl.id_cliente, CONCAT(cl.nombre, ' ', cl.apellido) AS nombre_completo, SUM(dp.subtotal) AS total_gastado
+        FROM cliente cl INNER JOIN pedido p ON cl.id_cliente = p.id_cliente INNER JOIN detalle_pedido dp ON p.id_pedido = dp.id_pedido
+        GROUP BY cl.id_cliente, cl.nombre, cl.apellido
+    ) sub
+)
+EXCEPT
+(
+    WITH gasto_cliente AS (
+        SELECT cl.id_cliente, cl.nombre || ' ' || cl.apellido AS nombre_completo, COALESCE(SUM(dp.subtotal), 0) AS total_gastado
+        FROM cliente cl JOIN pedido p ON cl.id_cliente = p.id_cliente JOIN detalle_pedido dp ON p.id_pedido = dp.id_pedido
+        GROUP BY cl.id_cliente, cl.nombre, cl.apellido
+    )
+    SELECT id_cliente, nombre_completo, total_gastado, DENSE_RANK() OVER (ORDER BY total_gastado DESC) AS puesto_ranking 
+    FROM gasto_cliente
+);
+```
+
+---
+
+## 2. Consulta B: Subconsulta Correlacionada con `EXISTS`
+
+### Especificación Precisa (Spec)
+> Generar una consulta SQL sobre Food Store que obtenga las categorías activas (`activo = TRUE`) devolviendo su ID y nombre, únicamente si cuentan con al menos un producto con precio unitario superior al precio promedio global de todos los productos del sistema. La condición de existencia debe evaluarse mediante una subconsulta correlacionada con `EXISTS`. Evitar el uso de `SELECT *`.
+
+### Versión 1 (Generada por IA - Subconsulta Correlacionada con `EXISTS`)
+```sql
+SELECT 
+    c.id_categoria,
+    c.nombre
+FROM categoria c
+WHERE c.activo = TRUE
+  AND EXISTS (
+    SELECT 1
+    FROM producto p
+    WHERE p.id_categoria = c.id_categoria
+      AND p.precio > (SELECT AVG(precio) FROM producto)
+)
+ORDER BY c.id_categoria ASC;
+```
+
+### Versión 2 (Alternativa / Propia - JOIN Explícito con `DISTINCT`)
+```sql
+SELECT DISTINCT
+    c.id_categoria,
+    c.nombre
+FROM categoria c
+JOIN producto p ON c.id_categoria = p.id_categoria
+WHERE c.activo = TRUE
+  AND p.precio > (SELECT AVG(precio) FROM producto)
+ORDER BY c.id_categoria ASC;
+```
+
+### Verificación de Equivalencia (`EXCEPT`)
+```sql
+-- Evaluación V1 EXCEPT V2 (Debe devolver 0 filas)
+(
+    SELECT c.id_categoria, c.nombre
+    FROM categoria c
+    WHERE c.activo = TRUE AND EXISTS (
+        SELECT 1 FROM producto p WHERE p.id_categoria = c.id_categoria AND p.precio > (SELECT AVG(precio) FROM producto)
+    )
+)
+EXCEPT
+(
+    SELECT DISTINCT c.id_categoria, c.nombre
+    FROM categoria c JOIN producto p ON c.id_categoria = p.id_categoria
+    WHERE c.activo = TRUE AND p.precio > (SELECT AVG(precio) FROM producto)
+);
+
+-- Evaluación V2 EXCEPT V1 (Debe devolver 0 filas)
+(
+    SELECT DISTINCT c.id_categoria, c.nombre
+    FROM categoria c JOIN producto p ON c.id_categoria = p.id_categoria
+    WHERE c.activo = TRUE AND p.precio > (SELECT AVG(precio) FROM producto)
+)
+EXCEPT
+(
+    SELECT c.id_categoria, c.nombre
+    FROM categoria c
+    WHERE c.activo = TRUE AND EXISTS (
+        SELECT 1 FROM producto p WHERE p.id_categoria = c.id_categoria AND p.precio > (SELECT AVG(precio) FROM producto)
+    )
+);
+```
