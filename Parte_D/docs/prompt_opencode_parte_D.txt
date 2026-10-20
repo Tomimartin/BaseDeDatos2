@@ -1,0 +1,17 @@
+Estoy realizando la Parte D del TP Unidad 5 de Base de Datos II (PostgreSQL 17, base de desarrollo foodstorecopia).
+
+Necesito que GENERES, sin ejecutar cambios, dos consultas SQL agregadas equivalentes y una verificación automatizada de su equivalencia para los datos reales y anonimizados.
+
+Estructura real comprobada:
+- public.usuario(id BIGINT, nombre VARCHAR), con 2 filas.
+- public.usuario_anon(id BIGINT, nombre VARCHAR), también con 2 filas.
+- El proceso de anonimización genera usuario_anon.id con ROW_NUMBER() OVER (ORDER BY usuario.id): los IDs de usuario_anon son 1, 2, ..., N y NO son los identificadores originales. Los nombres son sintéticos.
+- No existen columnas rol ni fecha_alta; no inventes columnas.
+
+Quiero comparar la cantidad total y una agregación con grupos consistentes: por paridad de la POSICIÓN ORDINAL, no por la paridad del identificador real. Para la tabla real, calculá ROW_NUMBER() OVER (ORDER BY id) y agrupá por posición impar/par; para la tabla anónima, agrupá por paridad del id sintético. Los grupos deben llamarse igual en ambas consultas.
+
+También prepará una consulta de verificación (por ejemplo FULL OUTER JOIN sobre grupos) para detectar si falta algún grupo o si difiere algún conteo.
+
+No muestres nombres ni IDs de personas, no modifiques datos ni hagas DROP/TRUNCATE, y no incluyas información real de la base en tu respuesta. Explicá la limitación: con dos usuarios y sin otras variables no se pueden contrastar distribuciones por rol, fecha o variables de negocio; solo igualdad por grupos ordinales artificiales.
+
+Devolveme las tres consultas y una explicación breve. No ejecutes SQL.
