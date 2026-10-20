@@ -1,0 +1,26 @@
+"registro_completo"
+"2026-10-19 23:03:35.195 -03 [35688] usuario=postgres db=foodstorecopia origen=::1(38945) FATAL:  la autentificación password falló para el usuario «postgres»"
+"2026-10-19 23:09:25.223 -03 [29260] usuario=postgres db=foodstorecopia origen=::1(9310) LOG:  sentencia: SET log_statement = 'all';
+	
+	BEGIN;
+	
+	CREATE TEMP TABLE auditoria_u5_prueba (
+	    id INTEGER PRIMARY KEY,
+	    descripcion TEXT NOT NULL
+	);
+	
+	INSERT INTO auditoria_u5_prueba
+	VALUES (1, 'registro_sintetico');
+	
+	UPDATE auditoria_u5_prueba
+	SET descripcion = 'registro_modificado'
+	WHERE id = 1;
+	
+	SELECT * FROM auditoria_u5_prueba;
+	
+	ROLLBACK;
+	
+	RESET log_statement;
+	
+	SELECT pg_current_logfile() AS archivo_log_actual;"
+"2026-10-19 23:19:12.254 -03 [16284] usuario=postgres db=foodstorecopia origen=::1(39981) FATAL:  la autentificación password falló para el usuario «postgres»"

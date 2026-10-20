@@ -1,0 +1,38 @@
+# Food Store — Unidad 5 / Parte B
+# Fuente: exportación de eventos del log del servidor PostgreSQL 17.11 (pgAdmin, 19/10/2026).
+# Base: foodstorecopia. Zona horaria según eventos: UTC-03.
+# Extracción filtrada: 3 eventos, sin deducir registros fuera de esta muestra.
+# Las dos versiones CSV recibidas fueron comparadas y son idénticas (SHA-256 coincidente).
+# ADVERTENCIA: el segundo evento es UNA sentencia registrada con varios comandos SQL en
+# el mismo bloque de texto. El log acredita envío/registro del bloque, no el número de
+# filas afectadas ni confirma individualmente el resultado de cada comando.
+# Los dos FATAL son rechazos de contraseña del rol postgres originados desde ::1.
+# No hay contraseñas en este extracto. No reutilizar el archivo como prueba de la Parte C.
+
+2026-10-19 23:03:35.195 -03 [35688] usuario=postgres db=foodstorecopia origen=::1(38945) FATAL:  la autentificación password falló para el usuario «postgres»
+
+2026-10-19 23:09:25.223 -03 [29260] usuario=postgres db=foodstorecopia origen=::1(9310) LOG:  sentencia: SET log_statement = 'all';
+	
+	BEGIN;
+	
+	CREATE TEMP TABLE auditoria_u5_prueba (
+	    id INTEGER PRIMARY KEY,
+	    descripcion TEXT NOT NULL
+	);
+	
+	INSERT INTO auditoria_u5_prueba
+	VALUES (1, 'registro_sintetico');
+	
+	UPDATE auditoria_u5_prueba
+	SET descripcion = 'registro_modificado'
+	WHERE id = 1;
+	
+	SELECT * FROM auditoria_u5_prueba;
+	
+	ROLLBACK;
+	
+	RESET log_statement;
+	
+	SELECT pg_current_logfile() AS archivo_log_actual;
+
+2026-10-19 23:19:12.254 -03 [16284] usuario=postgres db=foodstorecopia origen=::1(39981) FATAL:  la autentificación password falló para el usuario «postgres»
