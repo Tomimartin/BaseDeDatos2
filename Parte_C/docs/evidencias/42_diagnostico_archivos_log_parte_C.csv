@@ -1,0 +1,5 @@
+"archivo","modificado","tamanio_bytes","aparece_autenticacion","aparece_lectura_masiva","aparece_escalamiento"
+"postgresql-2026-10-20_000000.log","2026-10-20 00:07:07-03",1030,False,False,False
+"postgresql-2026-10-19_000000.log","2026-10-19 23:58:27-03",15609,True,True,True
+"postgresql-2026-10-16_000000.log","2026-10-18 19:20:12-03",0,False,False,False
+"postgresql-2026-10-15_073119.log","2026-10-15 07:36:20-03",467,False,False,False

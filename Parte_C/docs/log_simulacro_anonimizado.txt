@@ -1,0 +1,29 @@
+2026-10-19 23:50:34.736 -03 [44660] usuario=DBA_LAB db=BD_LAB origen=LOCAL LOG:  sentencia: SELECT public.fn_autenticar(
+	    'USUARIO_SIMULADO', 'CLAVE_A'
+	) AS fallo_1;
+2026-10-19 23:50:51.983 -03 [44660] usuario=DBA_LAB db=BD_LAB origen=LOCAL LOG:  sentencia: SELECT public.fn_autenticar(
+	    'USUARIO_SIMULADO', 'CLAVE_B'
+	) AS fallo_2;
+2026-10-19 23:51:07.184 -03 [44660] usuario=DBA_LAB db=BD_LAB origen=LOCAL LOG:  sentencia: SELECT public.fn_autenticar(
+	    'USUARIO_SIMULADO', 'CLAVE_C'
+	) AS fallo_3;
+2026-10-19 23:51:25.127 -03 [44660] usuario=DBA_LAB db=BD_LAB origen=LOCAL LOG:  sentencia: SELECT public.fn_autenticar(
+	    'USUARIO_SIMULADO', 'CLAVE_D'
+	) AS acierto;
+2026-10-19 23:53:43.408 -03 [44660] usuario=DBA_LAB db=BD_LAB origen=LOCAL LOG:  sentencia: SET ROLE app_web;
+	
+	SELECT
+	    current_user AS rol_actual,
+	    session_user AS usuario_original,
+	    has_table_privilege(
+	        current_user,
+	        'public.usuario',
+	        'SELECT'
+	    ) AS puede_leer_usuario;
+2026-10-19 23:56:08.943 -03 [44660] usuario=DBA_LAB db=BD_LAB origen=LOCAL LOG:  sentencia: SELECT COUNT(u.id) AS volumen_intentado
+	FROM public.usuario AS u
+	CROSS JOIN generate_series(1, 1000) AS copias;
+2026-10-19 23:56:08.957 -03 [44660] usuario=DBA_LAB db=BD_LAB origen=LOCAL ERROR:  permiso denegado a la tabla usuario
+2026-10-19 23:58:08.495 -03 [44660] usuario=DBA_LAB db=BD_LAB origen=LOCAL LOG:  sentencia: SELECT current_user AS rol_actual;
+2026-10-19 23:58:27.590 -03 [44660] usuario=DBA_LAB db=BD_LAB origen=LOCAL LOG:  sentencia: GRANT admin_datos TO app_web;
+2026-10-19 23:58:27.591 -03 [44660] usuario=DBA_LAB db=BD_LAB origen=LOCAL ERROR:  se ha denegado el permiso para otorgar el rol Â«admin_datosÂ»
