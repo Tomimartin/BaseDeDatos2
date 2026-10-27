@@ -24,7 +24,7 @@ Este documento registra de forma cronológica y detallada el proceso de trabajo 
 ### Interacción 1: Búsqueda de Pedidos por Rango de Fechas (Parte A)
 - **Herramienta:** Kiro (Especificación) / OpenCode (Generación)
 - **Propósito:** Especificar la necesidad de negocio para optimizar la consulta de pedidos por fecha y generar el índice B-Tree óptimo.
-- **Prompt / Spec utilizado (`specs/spec_pedidos_fecha.md`):**
+- **Prompt / Spec utilizado (`../TP3_unidad2/specs/spec_pedidos_fecha.md`):**
   > "Especificar requerimiento para acelerar búsquedas de pedidos en el rango de fechas '2024-05-01' y '2024-05-31'. Criterio de aceptación: Evitar el Seq Scan completo sobre la tabla pedido."
 - **Propuesta de la IA:**
   Creación del índice `CREATE INDEX idx_pedido_fecha ON pedido(fecha);`.
@@ -50,7 +50,7 @@ Este documento registra de forma cronológica y detallada el proceso de trabajo 
 ### Interacción 3: Historial de Detalle de Producto por Cantidad (Parte A)
 - **Herramienta:** Kiro (Especificación) / OpenCode (Generación)
 - **Propósito:** Optimizar el filtrado por producto y ordenamiento por cantidad vendida en la tabla `detalle_pedido`.
-- **Prompt / Spec utilizado (`specs/spec_detalle_producto.md`):**
+- **Prompt / Spec utilizado (`../TP3_unidad2/specs/spec_detalle_producto.md`):**
   > "Necesitamos consultar detalle_pedido filtrando por id_producto = 150 y ordenando por cantidad DESC. Generar índice que cubra filtro y orden."
 - **Propuesta de la IA:**
   Creación del índice compuesto `CREATE INDEX idx_detalle_pedido_producto_cant ON detalle_pedido(id_producto, cantidad DESC);`.
@@ -92,7 +92,7 @@ Este documento registra de forma cronológica y detallada el proceso de trabajo 
 ### Interacción 6: Vistas del Sistema y Verificación de Equivalencia (Parte B - Registro Obligatorio)
 - **Herramienta:** Kiro (Especificación) / OpenCode (Generación)
 - **Propósito:** Generar la vista de resumen mensual de ventas por cliente e implementar controles de seguridad.
-- **Prompt / Spec utilizado (`specs/spec_vista_ventas_usuario_mes.md`):**
+- **Prompt / Spec utilizado (`../TP3_unidad2/specs/spec_vista_ventas_usuario_mes.md`):**
   > "Generar una vista que agrupe ventas por cliente y mes. Aplicar el criterio de seguridad de la teoría ocultando columnas sensibles como contraseñas o hashes."
 - **Propuesta de la IA:**
   Código SQL con `JOIN` entre las tablas `usuario`, `pedido` y `detalle_pedido`.

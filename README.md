@@ -18,22 +18,14 @@ Trabajo práctico de optimización de bases de datos relacionales sobre el esque
 ```
 BaseDeDatos2/
 │
-├── base_food_store.sql          # DDL completo + datos base (esquema inicial)
-├── indices.sql                  # Índices B-Tree optimizados (Parte A)
-├── views.sql                    # Vistas relacionales (Parte B)
-├── materializadas.md            # Vista materializada y mediciones (Parte C)
-│
-├── informe_mediciones.md        # Informe antes/después de cada optimización
-├── DUIA.md                      # Declaración de Uso de IA y bitácora
-│
-└── specs/
-    ├── spec_pedidos_fecha.md              # Spec: índice sobre pedido.fecha
-    ├── spec_producto_precio.md            # Spec: índice sobre producto.precio DESC
-    ├── spec_detalle_producto.md           # Spec: índice compuesto detalle_pedido
-    ├── spec_vista_stock_critico.md        # Spec: vista stock crítico
-    ├── spec_vista_ventas_usuario_mes.md   # Spec: vista ventas por cliente y mes
-    ├── spec_vista_producots_mas_vendidos  # Spec: vista productos más vendidos
-    └── spec_vista_materializada_facturacion.md  # Spec: vista materializada
+├── TP2_unidad2/                 # Esquema, restricciones e informe del TP2
+├── TP3_unidad2/                 # Carga masiva, índices, mediciones y specs
+├── TP4_unidad2/                 # Consultas, vistas y mediciones de concurrencia
+├── TP4_unidad4/                 # FNBC, desnormalización y evidencias
+├── U6/                          # Mantenimiento, salud, respaldos y seguridad
+├── Parte_A/ ... Parte_D/        # Entregas de auditoría y seguridad
+├── README.md
+└── BITACORA.md
 ```
 
 ---
@@ -53,7 +45,7 @@ CREATE DATABASE food_store;
 Ejecutar el dump completo que crea todas las tablas, secuencias, restricciones y datos iniciales:
 
 ```bash
-psql -U <usuario> -d food_store -f base_food_store.sql
+psql -U <usuario> -d food_store -f TP2_unidad2/base_food_store.sql
 ```
 
 Tablas creadas: `categoria`, `cliente`, `producto`, `pedido`, `detalle_pedido`.
@@ -114,7 +106,7 @@ Resultado esperado sin índice: `Parallel Seq Scan on detalle_pedido` + `Sort` �
 ## Paso 4 — Aplicar los Índices (Parte A)
 
 ```bash
-psql -U <usuario> -d food_store -f indices.sql
+psql -U <usuario> -d food_store -f TP3_unidad2/indices.sql
 ```
 
 O ejecutar cada sentencia individualmente:
@@ -155,14 +147,14 @@ Repetir exactamente las mismas consultas del Paso 3 con `EXPLAIN (ANALYZE, BUFFE
 | Productos por precio | `Bitmap Index Scan` o `Index Scan` | `Seq Scan` + `Sort` |
 | Detalle por producto | `Index Scan using idx_detalle_pedido_producto_cant` | `Seq Scan` + `Sort` |
 
-Ver resultados completos en [`informe_mediciones.md`](informe_mediciones.md).
+Ver resultados completos en [`informe_mediciones.md`](TP3_unidad2/informe_mediciones.md).
 
 ---
 
 ## Paso 6 — Crear las Vistas (Parte B)
 
 ```bash
-psql -U <usuario> -d food_store -f views.sql
+psql -U <usuario> -d food_store -f TP4_unidad2/views.sql
 ```
 
 Tres vistas creadas:
@@ -245,7 +237,7 @@ FROM generate_series(100000, 101000) AS i;
 ROLLBACK;
 
 -- SIN índices: primero hacer DROP de los índices, luego repetir el bloque,
--- y finalmente recrearlos con indices.sql
+-- y finalmente recrearlos con TP3_unidad2/indices.sql
 ```
 
 Resultado esperado:
@@ -268,6 +260,6 @@ Resultado esperado:
 
 ## Referencias
 
-- Especificaciones técnicas de cada optimización: `specs/`
-- Informe completo antes/después: [`informe_mediciones.md`](informe_mediciones.md)
-- Declaración de Uso de IA y bitácora de decisiones: [`DUIA.md`](DUIA.md)
+- Especificaciones técnicas de cada optimización: [`TP3_unidad2/specs/`](TP3_unidad2/specs/)
+- Informe completo antes/después: [`informe_mediciones.md`](TP3_unidad2/informe_mediciones.md)
+- Declaración de Uso de IA y bitácora de decisiones: [`DUIA.md`](TP2_unidad2/DUIA.md)
