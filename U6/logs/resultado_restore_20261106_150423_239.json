@@ -1,0 +1,51 @@
+﻿{
+    "resultado":  "EXITO",
+    "origen_del_respaldo":  "foodstorecopia",
+    "destino":  "foodstore_restore_test",
+    "archivo_respaldo":  "C:\\Users\\ignac\\backups\\foodstorecopia_20261106_145119_926.dump",
+    "inicio_respaldo":  "2026-11-06T14:51:20.1036237-03:00",
+    "fin_respaldo":  "2026-11-06T14:51:35.8014682-03:00",
+    "inicio_restauracion":  "2026-11-06T15:04:38.6603196-03:00",
+    "fin_validaciones":  "2026-11-06T15:04:43.3363536-03:00",
+    "rto_previsto_segundos":  300,
+    "rto_observado_segundos":  4.673,
+    "rto_cumple_objetivo":  true,
+    "rpo_previsto_horas":  24,
+    "rpo_observado_minutos":  13.309,
+    "rpo_cumple_objetivo":  true,
+    "criterio_rpo":  "Antiguedad del respaldo al iniciar el ensayo, usando su hora de inicio. No mide perdida real de datos.",
+    "comparacion":  [
+                        {
+                            "tabla":  "categoria",
+                            "antes_del_respaldo":  2006,
+                            "despues_de_restaurar":  2006,
+                            "coincide":  true
+                        },
+                        {
+                            "tabla":  "cliente",
+                            "antes_del_respaldo":  20004,
+                            "despues_de_restaurar":  20004,
+                            "coincide":  true
+                        },
+                        {
+                            "tabla":  "producto",
+                            "antes_del_respaldo":  50010,
+                            "despues_de_restaurar":  50010,
+                            "coincide":  true
+                        },
+                        {
+                            "tabla":  "pedido",
+                            "antes_del_respaldo":  200004,
+                            "despues_de_restaurar":  200004,
+                            "coincide":  true
+                        },
+                        {
+                            "tabla":  "detalle_pedido",
+                            "antes_del_respaldo":  200014,
+                            "despues_de_restaurar":  200014,
+                            "coincide":  true
+                        }
+                    ],
+    "productos_invalidos":  0,
+    "detalles_invalidos":  0
+}

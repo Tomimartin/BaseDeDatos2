@@ -1,0 +1,24 @@
+Transcripcion de la salida aportada por el equipo el 06/11/2026.
+Base declarada por el equipo: foodstorecopia.
+
+INFO: analizando public.categoria
+17 de 17 paginas; 2006 filas vigentes y 1 no vigente;
+2006 filas en la muestra; 2006 filas estimadas.
+INFO: analizando public.cliente
+257 de 257 paginas; 20004 filas vigentes y 0 no vigentes;
+20004 filas en la muestra; 20004 filas estimadas.
+INFO: analizando public.producto
+667 de 667 paginas; 50010 filas vigentes y 3 no vigentes;
+30000 filas en la muestra; 50010 filas estimadas.
+INFO: analizando public.pedido
+4804 de 4804 paginas; 200004 filas vigentes y 0 no vigentes;
+30000 filas en la muestra; 200004 filas estimadas.
+INFO: analizando public.detalle_pedido
+5791 de 5791 paginas; 200014 filas vigentes y 0 no vigentes;
+30000 filas en la muestra; 200014 filas estimadas.
+ANALYZE
+Query returned successfully in 927 msec.
+
+Verificacion posterior: last_analyze del 06/11/2026 entre 15:13:31 y
+15:13:32 (-03:00), analyze_count = 1 en las cinco tablas,
+track_counts = on y autovacuum = on. Ver captura 07.

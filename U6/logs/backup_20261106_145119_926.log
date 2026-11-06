@@ -1,0 +1,6 @@
+﻿[2026-11-06T14:51:20.1071394-03:00] INICIO base=foodstorecopia host=localhost puerto=5432 usuario=postgres
+[2026-11-06T14:51:20.1222578-03:00] CLIENTE pg_dump (PostgreSQL) 17.11
+[2026-11-06T14:51:20.1253926-03:00] ARCHIVO C:\Users\ignac\backups\foodstorecopia_20261106_145119_926.dump
+[2026-11-06T14:51:35.8693096-03:00] EXITO base=foodstorecopia bytes=7053279 codigo=0
+[2026-11-06T14:51:35.8718236-03:00] LISTADO_LEGIBLE archivo=C:\Users\ignac\logs\contenido_20261106_145119_926.txt; restauracion completa pendiente
+[2026-11-06T14:51:35.8738247-03:00] METADATOS C:\Users\ignac\logs\respaldo_20261106_145119_926.json

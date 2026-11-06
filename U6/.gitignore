@@ -1,0 +1,13 @@
+# Respaldos generados y archivos incompletos.
+backups/
+*.dump
+*.dump.partial
+*.partial
+
+# Credenciales locales.
+.pgpass
+pgpass.conf
+.env
+.env.*
+
+# Los logs del ensayo forman parte de la entrega.

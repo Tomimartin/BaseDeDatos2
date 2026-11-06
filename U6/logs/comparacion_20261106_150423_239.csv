@@ -1,0 +1,6 @@
+﻿"tabla","antes_del_respaldo","despues_de_restaurar","coincide"
+"categoria","2006","2006","True"
+"cliente","20004","20004","True"
+"producto","50010","50010","True"
+"pedido","200004","200004","True"
+"detalle_pedido","200014","200014","True"

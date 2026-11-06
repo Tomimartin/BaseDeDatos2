@@ -1,0 +1,15 @@
+﻿{
+    "database":  "foodstorecopia",
+    "host":  "localhost",
+    "port":  5432,
+    "user":  "postgres",
+    "backup_started_at":  "2026-11-06T14:51:20.1036237-03:00",
+    "backup_finished_at":  "2026-11-06T14:51:35.8014682-03:00",
+    "bytes":  7053279,
+    "file":  "C:\\Users\\ignac\\backups\\foodstorecopia_20261106_145119_926.dump",
+    "format":  "custom",
+    "pg_dump":  "pg_dump (PostgreSQL) 17.11",
+    "pg_restore":  "pg_restore (PostgreSQL) 17.11",
+    "listing_exit_code":  0,
+    "full_restore_verified":  false
+}

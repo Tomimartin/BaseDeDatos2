@@ -1,0 +1,180 @@
+﻿[2026-11-06T15:04:23.3154928-03:00] PREPARACION origen_del_respaldo=foodstorecopia destino=foodstore_restore_test archivo=C:\Users\ignac\backups\foodstorecopia_20261106_145119_926.dump
+170011
+;
+; Archive created at 2026-11-06 14:51:20
+;     dbname: foodstorecopia
+;     TOC Entries: 156
+;     Compression: gzip
+;     Dump Version: 1.16-0
+;     Format: CUSTOM
+;     Integer: 4 bytes
+;     Offset: 8 bytes
+;     Dumped from database version: 17.11
+;     Dumped by pg_dump version: 17.11
+;
+;
+; Selected TOC Entries:
+;
+5101; 0 0 ACL - SCHEMA public pg_database_owner
+2; 3079 41312 EXTENSION - pgcrypto 
+5102; 0 0 COMMENT - EXTENSION pgcrypto 
+909; 1247 24649 TYPE public forma_pago_enum postgres
+5103; 0 0 ACL public FUNCTION armor(bytea) postgres
+5104; 0 0 ACL public FUNCTION armor(bytea, text[], text[]) postgres
+5105; 0 0 ACL public FUNCTION crypt(text, text) postgres
+5106; 0 0 ACL public FUNCTION dearmor(text) postgres
+5107; 0 0 ACL public FUNCTION decrypt(bytea, bytea, text) postgres
+5108; 0 0 ACL public FUNCTION decrypt_iv(bytea, bytea, bytea, text) postgres
+5109; 0 0 ACL public FUNCTION digest(bytea, text) postgres
+5110; 0 0 ACL public FUNCTION digest(text, text) postgres
+5111; 0 0 ACL public FUNCTION encrypt(bytea, bytea, text) postgres
+5112; 0 0 ACL public FUNCTION encrypt_iv(bytea, bytea, bytea, text) postgres
+291; 1255 41357 FUNCTION public fn_autenticar(text, text) postgres
+5113; 0 0 ACL public FUNCTION fn_autenticar(p_usuario text, p_clave text) postgres
+5114; 0 0 ACL public FUNCTION gen_random_bytes(integer) postgres
+5115; 0 0 ACL public FUNCTION gen_random_uuid() postgres
+5116; 0 0 ACL public FUNCTION gen_salt(text) postgres
+5117; 0 0 ACL public FUNCTION gen_salt(text, integer) postgres
+5118; 0 0 ACL public FUNCTION hmac(bytea, bytea, text) postgres
+5119; 0 0 ACL public FUNCTION hmac(text, text, text) postgres
+5120; 0 0 ACL public FUNCTION pgp_armor_headers(text, OUT key text, OUT value text) postgres
+5121; 0 0 ACL public FUNCTION pgp_key_id(bytea) postgres
+5122; 0 0 ACL public FUNCTION pgp_pub_decrypt(bytea, bytea) postgres
+5123; 0 0 ACL public FUNCTION pgp_pub_decrypt(bytea, bytea, text) postgres
+5124; 0 0 ACL public FUNCTION pgp_pub_decrypt(bytea, bytea, text, text) postgres
+5125; 0 0 ACL public FUNCTION pgp_pub_decrypt_bytea(bytea, bytea) postgres
+5126; 0 0 ACL public FUNCTION pgp_pub_decrypt_bytea(bytea, bytea, text) postgres
+5127; 0 0 ACL public FUNCTION pgp_pub_decrypt_bytea(bytea, bytea, text, text) postgres
+5128; 0 0 ACL public FUNCTION pgp_pub_encrypt(text, bytea) postgres
+5129; 0 0 ACL public FUNCTION pgp_pub_encrypt(text, bytea, text) postgres
+5130; 0 0 ACL public FUNCTION pgp_pub_encrypt_bytea(bytea, bytea) postgres
+5131; 0 0 ACL public FUNCTION pgp_pub_encrypt_bytea(bytea, bytea, text) postgres
+5132; 0 0 ACL public FUNCTION pgp_sym_decrypt(bytea, text) postgres
+5133; 0 0 ACL public FUNCTION pgp_sym_decrypt(bytea, text, text) postgres
+5134; 0 0 ACL public FUNCTION pgp_sym_decrypt_bytea(bytea, text) postgres
+5135; 0 0 ACL public FUNCTION pgp_sym_decrypt_bytea(bytea, text, text) postgres
+5136; 0 0 ACL public FUNCTION pgp_sym_encrypt(text, text) postgres
+5137; 0 0 ACL public FUNCTION pgp_sym_encrypt(text, text, text) postgres
+5138; 0 0 ACL public FUNCTION pgp_sym_encrypt_bytea(bytea, text) postgres
+5139; 0 0 ACL public FUNCTION pgp_sym_encrypt_bytea(bytea, text, text) postgres
+241; 1255 41277 FUNCTION public tp_u4_completar_detalle() postgres
+243; 1255 41283 FUNCTION public tp_u4_propagar_categoria() postgres
+240; 1255 41279 FUNCTION public tp_u4_propagar_pedido() postgres
+242; 1255 41281 FUNCTION public tp_u4_propagar_producto() postgres
+219; 1259 24656 TABLE public categoria postgres
+5140; 0 0 ACL public TABLE categoria postgres
+218; 1259 24655 SEQUENCE public categoria_id_categoria_seq postgres
+221; 1259 24663 TABLE public cliente postgres
+5141; 0 0 ACL public TABLE cliente postgres
+5142; 0 0 ACL public COLUMN cliente.id_cliente postgres
+5143; 0 0 ACL public COLUMN cliente.nombre postgres
+5144; 0 0 ACL public COLUMN cliente.apellido postgres
+220; 1259 24662 SEQUENCE public cliente_id_cliente_seq postgres
+236; 1259 33135 TABLE public control_lote postgres
+5145; 0 0 ACL public TABLE control_lote postgres
+234; 1259 33100 TABLE public control_lote_almacen postgres
+5146; 0 0 ACL public TABLE control_lote_almacen postgres
+235; 1259 33120 TABLE public responsable_deposito postgres
+5147; 0 0 ACL public TABLE responsable_deposito postgres
+237; 1259 33150 VIEW public control_lote_almacen_compat postgres
+231; 1259 33085 TABLE public deposito postgres
+5148; 0 0 ACL public TABLE deposito postgres
+226; 1259 24699 TABLE public detalle_pedido postgres
+5149; 0 0 ACL public TABLE detalle_pedido postgres
+5150; 0 0 ACL public COLUMN detalle_pedido.id_producto postgres
+5151; 0 0 ACL public COLUMN detalle_pedido.cantidad postgres
+233; 1259 33095 TABLE public lote postgres
+5152; 0 0 ACL public TABLE lote postgres
+225; 1259 24688 TABLE public pedido postgres
+5153; 0 0 ACL public TABLE pedido postgres
+5154; 0 0 ACL public COLUMN pedido.forma_pago postgres
+5155; 0 0 ACL public COLUMN pedido.id_cliente postgres
+5156; 0 0 ACL public COLUMN pedido.eliminado postgres
+223; 1259 24671 TABLE public producto postgres
+5157; 0 0 ACL public TABLE producto postgres
+5158; 0 0 ACL public COLUMN producto.stock postgres
+230; 1259 24916 MATERIALIZED VIEW public mv_facturacion_categoria_mes postgres
+5159; 0 0 ACL public TABLE mv_facturacion_categoria_mes postgres
+224; 1259 24687 SEQUENCE public pedido_id_pedido_seq postgres
+222; 1259 24670 SEQUENCE public producto_id_producto_seq postgres
+238; 1259 41349 TABLE public u5_credenciales_prueba postgres
+232; 1259 33090 TABLE public usuario postgres
+5160; 0 0 ACL public TABLE usuario postgres
+5161; 0 0 ACL public COLUMN usuario.id postgres
+239; 1259 41358 TABLE public usuario_anon postgres
+227; 1259 24902 VIEW public vista_productos_mas_vendidos postgres
+5162; 0 0 ACL public TABLE vista_productos_mas_vendidos postgres
+229; 1259 24912 VIEW public vista_stock_critico postgres
+5163; 0 0 ACL public TABLE vista_stock_critico postgres
+228; 1259 24907 VIEW public vista_ventas_usuario_mes postgres
+5164; 0 0 ACL public TABLE vista_ventas_usuario_mes postgres
+5078; 0 24656 TABLE DATA public categoria postgres
+5080; 0 24663 TABLE DATA public cliente postgres
+5092; 0 33135 TABLE DATA public control_lote postgres
+5090; 0 33100 TABLE DATA public control_lote_almacen postgres
+5087; 0 33085 TABLE DATA public deposito postgres
+5085; 0 24699 TABLE DATA public detalle_pedido postgres
+5089; 0 33095 TABLE DATA public lote postgres
+5084; 0 24688 TABLE DATA public pedido postgres
+5082; 0 24671 TABLE DATA public producto postgres
+5091; 0 33120 TABLE DATA public responsable_deposito postgres
+5093; 0 41349 TABLE DATA public u5_credenciales_prueba postgres
+5088; 0 33090 TABLE DATA public usuario postgres
+5094; 0 41358 TABLE DATA public usuario_anon postgres
+5165; 0 0 SEQUENCE SET public categoria_id_categoria_seq postgres
+5166; 0 0 SEQUENCE SET public cliente_id_cliente_seq postgres
+5167; 0 0 SEQUENCE SET public pedido_id_pedido_seq postgres
+5168; 0 0 SEQUENCE SET public producto_id_producto_seq postgres
+4874; 2606 24661 CONSTRAINT public categoria categoria_pkey postgres
+4876; 2606 24667 CONSTRAINT public cliente cliente_pkey postgres
+4903; 2606 33104 CONSTRAINT public control_lote_almacen control_lote_almacen_pkey postgres
+4897; 2606 33089 CONSTRAINT public deposito deposito_pkey postgres
+4901; 2606 33099 CONSTRAINT public lote lote_pkey postgres
+4890; 2606 24693 CONSTRAINT public pedido pedido_pkey postgres
+4907; 2606 33139 CONSTRAINT public control_lote pk_control_lote postgres
+4894; 2606 24706 CONSTRAINT public detalle_pedido pk_detalle_pedido postgres
+4905; 2606 33124 CONSTRAINT public responsable_deposito pk_responsable_deposito postgres
+4883; 2606 24681 CONSTRAINT public producto producto_pkey postgres
+4909; 2606 41356 CONSTRAINT public u5_credenciales_prueba u5_credenciales_prueba_pkey postgres
+4878; 2606 24669 CONSTRAINT public cliente uq_cliente_email postgres
+4911; 2606 41362 CONSTRAINT public usuario_anon usuario_anon_pkey postgres
+4899; 2606 33094 CONSTRAINT public usuario usuario_pkey postgres
+4891; 1259 24891 INDEX public idx_detalle_pedido_precio postgres
+4892; 1259 24900 INDEX public idx_detalle_pedido_producto_cant postgres
+4895; 1259 24928 INDEX public idx_mv_facturacion_cat_mes_pk postgres
+4884; 1259 24890 INDEX public idx_pedido_cliente_fecha postgres
+4885; 1259 24895 INDEX public idx_pedido_cliente_pedido postgres
+4886; 1259 24896 INDEX public idx_pedido_fecha postgres
+4887; 1259 24892 INDEX public idx_pedido_forma_pago postgres
+4888; 1259 24717 INDEX public idx_pedido_id_cliente postgres
+4879; 1259 24889 INDEX public idx_producto_cat_cover postgres
+4880; 1259 24718 INDEX public idx_producto_categoria_activo postgres
+4881; 1259 24897 INDEX public idx_producto_precio_desc postgres
+4926; 2620 41278 TRIGGER public detalle_pedido trg_tp_u4_completar_detalle postgres
+4923; 2620 41284 TRIGGER public categoria trg_tp_u4_propagar_categoria postgres
+4925; 2620 41280 TRIGGER public pedido trg_tp_u4_propagar_pedido postgres
+4924; 2620 41282 TRIGGER public producto trg_tp_u4_propagar_producto postgres
+4916; 2606 33110 FK CONSTRAINT public control_lote_almacen control_lote_almacen_deposito_id_fkey postgres
+4917; 2606 33105 FK CONSTRAINT public control_lote_almacen control_lote_almacen_lote_id_fkey postgres
+4918; 2606 33115 FK CONSTRAINT public control_lote_almacen control_lote_almacen_responsable_control_id_fkey postgres
+4921; 2606 33140 FK CONSTRAINT public control_lote fk_control_lote_lote postgres
+4922; 2606 33145 FK CONSTRAINT public control_lote fk_control_lote_responsable postgres
+4914; 2606 24707 FK CONSTRAINT public detalle_pedido fk_detalle_pedido postgres
+4915; 2606 24712 FK CONSTRAINT public detalle_pedido fk_detalle_producto postgres
+4913; 2606 24694 FK CONSTRAINT public pedido fk_pedido_cliente postgres
+4912; 2606 24682 FK CONSTRAINT public producto fk_producto_categoria postgres
+4919; 2606 33130 FK CONSTRAINT public responsable_deposito fk_responsable_deposito postgres
+4920; 2606 33125 FK CONSTRAINT public responsable_deposito fk_responsable_usuario postgres
+2160; 826 41302 DEFAULT ACL - DEFAULT PRIVILEGES FOR FUNCTIONS postgres
+5086; 0 24916 MATERIALIZED VIEW DATA public mv_facturacion_categoria_mes postgres
+1
+[2026-11-06T15:04:38.4281309-03:00] PREPARACION eliminando exclusivamente foodstore_restore_test
+[2026-11-06T15:04:38.6557994-03:00] RTO previsto: 300 segundos. RPO previsto: 24 horas.
+[2026-11-06T15:04:38.6578100-03:00] El cronometro incluye crear la base, restaurar, consultar y comparar las validaciones.
+{"base" : "foodstore_restore_test", "conteos" : {"categoria" : 2006, "cliente" : 20004, "producto" : 50010, "pedido" : 200004, "detalle_pedido" : 200014}, "productos_invalidos" : 0, "detalles_invalidos" : 0}
+[2026-11-06T15:04:43.3575193-03:00] EXITO restauracion y validaciones completas en foodstore_restore_test
+[2026-11-06T15:04:43.3605200-03:00] RTO observado: 4,673 segundos; objetivo: 300 segundos
+[2026-11-06T15:04:43.3625194-03:00] RPO observado: 13,309 minutos de antiguedad; objetivo: 1440 minutos
+[2026-11-06T15:04:43.3645185-03:00] Productos invalidos=0; detalles invalidos=0
+[2026-11-06T15:04:43.3657360-03:00] RESULTADO C:\Users\ignac\logs\resultado_restore_20261106_150423_239.json
+[2026-11-06T15:04:43.3687377-03:00] COMPARACION C:\Users\ignac\logs\comparacion_20261106_150423_239.csv
