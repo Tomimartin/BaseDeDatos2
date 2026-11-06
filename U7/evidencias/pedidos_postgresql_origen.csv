@@ -1,0 +1,6 @@
+"id_pedido","fecha_origen","forma_pago","eliminado","id_cliente","id_producto","producto","cantidad","precio_unitario","subtotal"
+180991,"2026-01-31 01:19:57.926064-03","TARJETA",True,18492,30998,"Producto generado 30998",11,1350.33,14853.63
+181008,"2026-03-02 10:48:33.429559-03","TRANSFERENCIA",True,2412,31015,"Producto generado 31015",8,4384.97,35079.76
+181019,"2025-09-24 19:05:10.616643-03","TARJETA",False,4790,31026,"Producto generado 31026",19,3544.59,67347.21
+181036,"2026-02-06 02:07:24.511773-03","EFECTIVO",False,13628,31043,"Producto generado 31043",16,3324.05,53184.80
+181045,"2026-05-04 00:41:41.731898-03","TRANSFERENCIA",False,4026,31052,"Producto generado 31052",5,1424.03,7120.15

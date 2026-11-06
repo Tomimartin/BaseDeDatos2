@@ -1,0 +1,102 @@
+[
+  {
+    "pedido_id": "180991",
+    "fecha_utc_milisegundos": "2026-01-31T04:19:57.926Z",
+    "fecha_origen_pg": "2026-01-31 01:19:57.926064-03",
+    "estado": "ELIMINADO",
+    "eliminado": true,
+    "forma_pago": "TARJETA",
+    "cliente_id": "18492",
+    "nombre_publico_cliente": "Cliente 18492",
+    "items": [
+      {
+        "producto_id": "30998",
+        "nombre_producto": "Producto generado 30998",
+        "cantidad": 11,
+        "precio_unitario": "1350.33",
+        "subtotal": "14853.63"
+      }
+    ],
+    "total": "14853.63"
+  },
+  {
+    "pedido_id": "181008",
+    "fecha_utc_milisegundos": "2026-03-02T13:48:33.429Z",
+    "fecha_origen_pg": "2026-03-02 10:48:33.429559-03",
+    "estado": "ELIMINADO",
+    "eliminado": true,
+    "forma_pago": "TRANSFERENCIA",
+    "cliente_id": "2412",
+    "nombre_publico_cliente": "Cliente 2412",
+    "items": [
+      {
+        "producto_id": "31015",
+        "nombre_producto": "Producto generado 31015",
+        "cantidad": 8,
+        "precio_unitario": "4384.97",
+        "subtotal": "35079.76"
+      }
+    ],
+    "total": "35079.76"
+  },
+  {
+    "pedido_id": "181019",
+    "fecha_utc_milisegundos": "2025-09-24T22:05:10.616Z",
+    "fecha_origen_pg": "2025-09-24 19:05:10.616643-03",
+    "estado": "ACTIVO",
+    "eliminado": false,
+    "forma_pago": "TARJETA",
+    "cliente_id": "4790",
+    "nombre_publico_cliente": "Cliente 4790",
+    "items": [
+      {
+        "producto_id": "31026",
+        "nombre_producto": "Producto generado 31026",
+        "cantidad": 19,
+        "precio_unitario": "3544.59",
+        "subtotal": "67347.21"
+      }
+    ],
+    "total": "67347.21"
+  },
+  {
+    "pedido_id": "181036",
+    "fecha_utc_milisegundos": "2026-02-06T05:07:24.511Z",
+    "fecha_origen_pg": "2026-02-06 02:07:24.511773-03",
+    "estado": "ACTIVO",
+    "eliminado": false,
+    "forma_pago": "EFECTIVO",
+    "cliente_id": "13628",
+    "nombre_publico_cliente": "Cliente 13628",
+    "items": [
+      {
+        "producto_id": "31043",
+        "nombre_producto": "Producto generado 31043",
+        "cantidad": 16,
+        "precio_unitario": "3324.05",
+        "subtotal": "53184.80"
+      }
+    ],
+    "total": "53184.80"
+  },
+  {
+    "pedido_id": "181045",
+    "fecha_utc_milisegundos": "2026-05-04T03:41:41.731Z",
+    "fecha_origen_pg": "2026-05-04 00:41:41.731898-03",
+    "estado": "ACTIVO",
+    "eliminado": false,
+    "forma_pago": "TRANSFERENCIA",
+    "cliente_id": "4026",
+    "nombre_publico_cliente": "Cliente 4026",
+    "items": [
+      {
+        "producto_id": "31052",
+        "nombre_producto": "Producto generado 31052",
+        "cantidad": 5,
+        "precio_unitario": "1424.03",
+        "subtotal": "7120.15"
+      }
+    ],
+    "total": "7120.15"
+  }
+]

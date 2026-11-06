@@ -1,0 +1,21 @@
+Transcripcion de la salida de consola aportada por el equipo en el chat.
+Los horarios originales terminados en Z estan expresados en UTC.
+
+[2026-11-06T19:44:09.062Z] INICIO base=foodstorecopia_nosql coleccion=pedidos_u7
+[2026-11-06T19:44:09.099Z] Coleccion creada con validacion de tipos, cantidades, precios, estado y total
+[2026-11-06T19:44:09.120Z] MIGRACION: cinco pedidos procesados; comienza la verificacion
+[2026-11-06T19:44:09.128Z] Verificacion de datos originales: cinco pedidos coincidentes, con fechas, clientes, cantidades y precios
+[2026-11-06T19:44:09.132Z] 4a todos: cantidad=5; IDs=180991, 181008, 181019, 181036, 181045
+[2026-11-06T19:44:09.133Z] pedido_id=180991 estado=ELIMINADO
+[2026-11-06T19:44:09.137Z] pedido_id=181008 estado=ELIMINADO
+[2026-11-06T19:44:09.139Z] pedido_id=181019 estado=ACTIVO
+[2026-11-06T19:44:09.140Z] pedido_id=181036 estado=ACTIVO
+[2026-11-06T19:44:09.141Z] pedido_id=181045 estado=ACTIVO
+[2026-11-06T19:44:09.144Z] 4b estado ACTIVO: cantidad=3; IDs=181019, 181036, 181045
+[2026-11-06T19:44:09.146Z] 4c producto 30998: cantidad=1; IDs=180991
+[2026-11-06T19:44:09.150Z] 4d total mayor a 10000: cantidad=4; IDs=180991, 181008, 181019, 181036
+[2026-11-06T19:44:09.165Z] EXITO: migracion y cuatro consultas verificadas contra el CSV de PostgreSQL
+
+El objeto RESULTADO_U7_JSON enviado a continuacion se conserva en
+resultado_mongodb_20261106_194409.json. Ese archivo transcribe el objeto recibido;
+no se presenta como un archivo exportado automaticamente por la consola integrada.

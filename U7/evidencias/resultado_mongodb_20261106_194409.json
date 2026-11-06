@@ -1,0 +1,18 @@
+{
+  "resultado": "EXITO",
+  "fecha_ejecucion": "2026-11-06T19:44:09.164Z",
+  "base": "foodstorecopia_nosql",
+  "coleccion": "pedidos_u7",
+  "version_servidor": "8.0.10",
+  "csv_sha256": "cb3a7f6ab08d26da3ecaef9fc9c6ca60338db2394f381455aa2b06adb7fa1ff1",
+  "significado_estado": "Vigencia por baja logica: eliminado=true -> ELIMINADO; eliminado=false -> ACTIVO",
+  "documentos_verificados": 5,
+  "consultas": {
+    "todos": { "cantidad": 5, "ids": ["180991", "181008", "181019", "181036", "181045"] },
+    "estado_activo": { "cantidad": 3, "ids": ["181019", "181036", "181045"] },
+    "producto_30998": { "cantidad": 1, "ids": ["180991"] },
+    "total_mayor_10000": { "cantidad": 4, "ids": ["180991", "181008", "181019", "181036"] }
+  },
+  "integridad": { "pedidos_con_items_invalidos": 0, "pedidos_con_total_inconsistente": 0 },
+  "evidencia": "Salida de consola y variables resultadoU7, documentosU7 y logU7"
+}

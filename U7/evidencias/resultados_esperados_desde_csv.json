@@ -1,0 +1,29 @@
+{
+  "procedencia": "Calculado del CSV; pendiente de ejecucion y comprobacion en MongoDB y de las consultas equivalentes en PostgreSQL.",
+  "csv_sha256": "cb3a7f6ab08d26da3ecaef9fc9c6ca60338db2394f381455aa2b06adb7fa1ff1",
+  "todos": [
+    180991,
+    181008,
+    181019,
+    181036,
+    181045
+  ],
+  "estado_activo": [
+    181019,
+    181036,
+    181045
+  ],
+  "estado_eliminado": [
+    180991,
+    181008
+  ],
+  "producto_30998": [
+    180991
+  ],
+  "total_mayor_10000": [
+    180991,
+    181008,
+    181019,
+    181036
+  ]
+}
