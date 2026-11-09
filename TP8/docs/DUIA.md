@@ -1,28 +1,35 @@
-# Declaración de Uso de Inteligencia Artificial (DUIA) - TP8
+# Declaración de Uso de Inteligencia Artificial (DUIA) — TP8
 
-**Asignatura:** Base de Datos II. **Trabajo:** TP8 Food Store. **Fecha del borrador:** 08/11/2026. **Última actualización:** 09/11/2026.
+**Materia:** Base de Datos II. **Trabajo:** Food Store, Unidad 8. **Fecha de actualización:** 09/11/2026.
 
-## Herramientas utilizadas y alcance
+## Herramientas utilizadas y tareas
 
-Durante el desarrollo de este TP se empleó **ChatGPT** como asistencia conversacional para interpretar consignas, redactar propuestas de scripts SQL, depurar su ejecución en DB Browser for SQLite, explicar transacciones y preparar documentación. Las decisiones fueron contrastadas con consultas reales y capturas aportadas por el equipo: exportación de 50.010 productos, estados de sincronización, errores de integridad y prueba de COMMIT/ROLLBACK sobre copia SQLite. La validación del comportamiento no se basó únicamente en una respuesta de IA.
+**ChatGPT:** apoyo para interpretar la consigna, elaborar y corregir scripts SQL, comprender errores de integridad en DB Browser, preparar las pruebas del semáforo y redactar el informe. Las respuestas se contrastaron con consultas SQLite/PostgreSQL y no se trataron como pruebas por sí solas.
 
-También se utilizó **OpenCode en el agente Plan** para revisar scripts de distintas unidades sin modificarlos. Su respuesta fue contrastada con consultas reales en SQLite y PostgreSQL: unicidad de la instantánea, definición de columnas generadas/obligatorias y EXPLAIN del índice por precio. Se aceptaron dos observaciones y se descartó la afirmación de que el índice eliminaba necesariamente el Sort. Los detalles figuran en `bitacora_ia.md`.
+**OpenCode, agente Plan:** revisión de scripts de distintas unidades, sin ejecutar cambios. Se comprobaron tres hallazgos: ausencia de UNIQUE en la instantánea importada, incompatibilidad entre cargas y columnas obligatorias/generadas, y persistencia del paso Sort pese al índice de precio. Se aceptaron los dos primeros hallazgos para el análisis y se descartó la afirmación de que el índice elimina necesariamente el Sort. Las comprobaciones se describen en el informe y la bitácora.
 
-El 09/11/2026 se utilizó **OpenCode Build** para revisar `movil/semaforo.sql` contra el esquema real, aplicar un parche acotado de manejo de NULL, verificar los casos C2-C7 y los casos NULL sobre una copia temporal de `foodstore_movil.db`, y actualizar `docs/kiro/design.md`, `docs/bitacora_ia.md` y este documento. El parche conserva las tablas, columnas y el índice `ux_cola_una_pendiente`; no agrega `evaluado_en` ni modifica PostgreSQL. La verificación se ejecutó con Python sqlite3 sobre una copia temporal: el hash de la base original no cambió (`43ca12c19644f707ed30c86092736d5b598f178c89b35dd043b7d759377f90f1`), `integrity_check` devolvió `ok` y `foreign_key_check` no reportó filas. Los resultados completos están en `bitacora_ia.md`. No se agregaron archivos extra a la entrega.
+**Kiro:** revisión de `requirements.md`, `design.md` y `tasks.md` para la especificación 4.a, cuatro requisitos EARS con casos C1–C7 y tareas de generación. Se aceptó reforzar la introducción, las restricciones y el flujo; las discrepancias entre nombres propuestos y el esquema ya implementado se corrigieron posteriormente para mantener compatibilidad.
 
-**Kiro no se ejecutó** en este TP; no se le atribuyen acciones.
+**OpenCode, agente Build:** generación de versiones alternativas del esquema, pruebas y semáforo desde los documentos de Kiro; comparación con la implementación existente. Se rechazó eliminar el índice parcial y cambiar nombres/añadir `evaluado_en` porque implicaría migración. Se aceptó únicamente un parche para tratar como error o conflicto los valores `NULL` del snapshot, aplicándolo a `movil/semaforo.sql` y probándolo sobre copias temporales. Se verificaron C2–C7, controles N1–N7, `PRAGMA integrity_check=ok` y `foreign_key_check` sin errores. La base entregada no se modificó (SHA-256 `43ca12c19644f707ed30c86092736d5b598f178c89b35dd043b7d759377f90f1`).
 
-## Datos y privacidad
+## Criterios de seguridad y responsabilidad
 
-Se utilizaron datos de prueba y la base provista para el trabajo. No se incorporaron contraseñas ni datos personales de clientes en las pruebas. `SIMULADO_APROBADO` fue interpretado exclusivamente como verificación local, no como venta confirmada.
+Se utilizaron copias y datos de prueba. No se enviaron credenciales ni datos personales reales de clientes a la tablet ni a las consultas de IA. Ningún semáforo de SQLite confirma ventas ni actualiza el servidor; `SIMULADO_APROBADO` es solo una evaluación local. El estudiante revisó las sugerencias, decidió cuáles usar y contrastó los resultados. OpenCode Build no volvió a ejecutar verificaciones sobre PostgreSQL en la última pasada; las consultas PostgreSQL documentadas son de las pruebas del TP8 previas.
 
-## Validación humana y responsabilidad
+## Identificación y conformidad (completar por los integrantes)
 
-Las respuestas de IA fueron revisadas y aceptadas por el estudiante antes de incorporarlas. La verificación técnica de la consigna 4.a se realizó sobre una copia temporal; la base original y PostgreSQL no se modificaron. La responsabilidad final sobre el contenido, las decisiones y la presentación del TP es humana. No se incluyen interacciones ficticias ni datos personales inventados.
+**Integrantes responsables:**
 
-## Datos institucionales pendientes
+- 1. **Benjamin Lagos** — Legajo: __________________
+- 2. **Leandro Rea** — Legajo: __________________
+- 3. **Tomas Martin** — Legajo: __________________
+- 4. **Brian Rampone** — Legajo: __________________
+- 5. **Santiago Prandina** — Legajo: __________________
+- 6. **Emir Gris** — Legajo: __________________
+- 7. **Joel Herrera** — Legajo: __________________
+- 8. **Octavio Medina** — Legajo: __________________
+- **Fecha de presentación:** __________________________
+- **Firma(s):** __________________________
+- **Formulario DUIA oficial de la cátedra:** completar/adjuntar cuando corresponda.
 
-- **Integrantes responsables:** [completar con nombre y apellido/legajo]
-- **Fecha final de presentación:** [completar]
-- **Firma:** [completar]
-- **Formulario oficial de la cátedra:** adjuntar si la cátedra proporciona una plantilla específica.
+*Este documento declara el uso realizado y no reemplaza un formulario institucional separado, si la cátedra lo exige.*

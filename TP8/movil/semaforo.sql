@@ -15,8 +15,7 @@ WITH conteos AS (
                      AND (s.disponible IS NULL
                           OR LOWER(TRIM(CAST(s.disponible AS TEXT))) NOT IN ('true','t','1'))
                     THEN 1 ELSE 0 END) AS no_disponibles,
-           SUM(CASE WHEN s.producto_id IS NOT NULL
-                     AND (CAST(s.stock AS INTEGER) IS NULL
+           SUM(CASE WHEN s.producto_id IS NOT NULL AND (CAST(s.stock AS INTEGER) IS NULL
                           OR i.cantidad > CAST(s.stock AS INTEGER))
                     THEN 1 ELSE 0 END) AS sin_stock,
            SUM(CASE WHEN s.producto_id IS NOT NULL

@@ -1,44 +1,38 @@
 # TP8 Food Store — Tasks
 
-Tareas del módulo móvil offline de Food Store para su registro en Kiro. Las tareas completadas reflejan el trabajo ejecutado; las pendientes corresponden al uso de OpenCode Build según la consigna 4.a.
+Tareas de la especificación del módulo offline revisada en Kiro. Los estados reflejan únicamente acciones realizadas; los controles documentales pendientes se distinguen de las pruebas técnicas completadas.
 
----
+## Bloque 1 — Esquema SQLite
 
-## Bloque 1 — Esquema SQLite (completado)
+- [x] **T1.1** Diseñar las cuatro tablas `STRICT` (`producto_cache`, `pedido_borrador`, `item_borrador`, `cola_sync`) con `PRIMARY KEY`, `FOREIGN KEY`, `CHECK` y el índice parcial `UNIQUE`.
+- [x] **T1.2** Crear `public.v_snapshot_movil` en PostgreSQL, convirtiendo precios a centavos y calculando disponibilidad y baja lógica.
+- [x] **T1.3** Exportar el catálogo CSV de 50.010 productos.
+- [x] **T1.4** Importar `snapshot_servidor` y poblar `producto_cache` en SQLite.
+- [x] **T1.5** Verificar `PRAGMA integrity_check = ok` y `foreign_key_check` sin errores.
 
-- [x] **T1.1** Diseñar las cuatro tablas STRICT de SQLite (`producto_cache`, `pedido_borrador`, `item_borrador`, `cola_sync`) con sus restricciones `PRIMARY KEY`, `FOREIGN KEY`, `CHECK` y `UNIQUE`.
-- [x] **T1.2** Crear la vista `public.v_snapshot_movil` en PostgreSQL con conversión de precios a centavos y cálculo de `disponible`/`eliminado` desde `producto.activo` y `categoria.activo`.
-- [x] **T1.3** Exportar el catálogo desde PostgreSQL a `movil/servidor_snapshot.csv` (50.010 productos, UTF-8, con encabezados).
-- [x] **T1.4** Importar el CSV en DB Browser como tabla `snapshot_servidor` y poblar `producto_cache` mediante `INSERT ... SELECT` con casteos explícitos de tipo.
-- [x] **T1.5** Verificar integridad del esquema: `PRAGMA integrity_check = ok` y `PRAGMA foreign_key_check` sin errores sobre `movil/foodstore_movil.db`.
+## Bloque 2 — Transacciones
 
----
+- [x] **T2.1** Implementar `BEGIN` y `COMMIT` para guardar borrador, ítems y solicitud; usar `ROLLBACK` ante error.
+- [x] **T2.2** Probar COMMIT en copia con Python `sqlite3`: conteos (1,1,1).
+- [x] **T2.3** Probar ROLLBACK en copia con Python `sqlite3`: conteos (0,0,0).
+- [x] **T2.4** Comprobar C7: CHECK por cantidad 0 (275).
+- [x] **T2.5** Comprobar C7: FOREIGN KEY por producto inexistente (787).
 
-## Bloque 2 — Transacciones (completado)
+## Bloque 3 — Semáforo
 
-- [x] **T2.1** Implementar el guardado atómico de borrador: `BEGIN` → insertar en `pedido_borrador` → insertar en `item_borrador` → insertar en `cola_sync` → `COMMIT`. Ante cualquier error, ejecutar `ROLLBACK`.
-- [x] **T2.2** Probar `COMMIT` exitoso con Python `sqlite3` sobre copia aislada: verificar que las tres tablas contienen `(1, 1, 1)` filas tras el commit.
-- [x] **T2.3** Probar `ROLLBACK` con Python `sqlite3`: verificar que las tres tablas contienen `(0, 0, 0)` filas tras el rollback.
-- [x] **T2.4** Probar restricción `CHECK (cantidad > 0)` en `item_borrador`: verificar error SQLite 275 al intentar `cantidad = 0` (caso C7).
-- [x] **T2.5** Probar restricción `FOREIGN KEY` en `item_borrador`: verificar error SQLite 787 al referenciar un `producto_id` inexistente en `producto_cache` (caso C7).
+- [x] **T3.1** Implementar el semáforo para solicitudes `PENDIENTE`, sin escribir en PostgreSQL.
+- [x] **T3.2** Verificar C2: cambio de precio → `CONFLICTO` y reintento corregido.
+- [x] **T3.3** Verificar C3: stock insuficiente → `RECHAZADO`.
+- [x] **T3.4** Verificar C4: baja lógica → `RECHAZADO`, conservando el producto en caché.
+- [x] **T3.5** Verificar C5: sin cambios → `SIMULADO_APROBADO`.
+- [x] **T3.6** Verificar C6: UUID duplicado → error 1555, preservando la solicitud original.
 
----
+## Bloque 4 — Kiro y OpenCode Build (consigna 4.a)
 
-## Bloque 3 — Semáforo (completado)
+- [x] **T4.1** Utilizar Kiro para revisar requirements.md, design.md y tasks.md; utilizar OpenCode Build para generar una versión alternativa del esquema SQLite y contrastarla con `schema_sqlite.sql`. Se conservó el esquema original compatible con la base entregada.
+- [x] **T4.2** Utilizar OpenCode Build para generar/revisar las pruebas de transacciones y contrastarlas con `pruebas_sqlite.sql` y C1–C7 en bases temporales.
+- [x] **T4.3** Utilizar OpenCode Build para generar/revisar el semáforo, preservar el índice `ux_cola_una_pendiente`, corregir el tratamiento de NULL y verificar en copias los casos normales y N1–N7.
+- [x] **T4.4** Contrastar los resultados del TP8 con SQLite y con las consultas ya ejecutadas en PostgreSQL, registradas en el informe (precio, stock, baja lógica y conteo de pedidos). OpenCode Build no volvió a conectarse a PostgreSQL durante la revisión final.
+- [x] **T4.5** Documentar las interacciones realmente realizadas y las decisiones en `docs/bitacora_ia.md` y preparar `docs/DUIA.md`.
 
-- [x] **T3.1** Implementar `movil/semaforo.sql`: evaluar todas las solicitudes en estado `PENDIENTE` cruzando `cola_sync` + `item_borrador` + `snapshot_servidor`.
-- [x] **T3.2** Probar C2 (CONFLICTO): modificar precio del producto 1 en PostgreSQL, actualizar `snapshot_servidor` y verificar que la solicitud pasa a `CONFLICTO`.
-- [x] **T3.3** Probar C3 (RECHAZADO por stock): reducir stock de producto 2 a 4 y solicitar 10 unidades; verificar `RECHAZADO` con motivo de stock insuficiente.
-- [x] **T3.4** Probar C4 (RECHAZADO por baja lógica): dar de baja el producto 3 en PostgreSQL; verificar `RECHAZADO` y que el producto permanece en `producto_cache` con `eliminado = 1`.
-- [x] **T3.5** Probar C5 (SIMULADO_APROBADO): enviar borrador sin cambios respecto al snapshot; verificar aprobación simulada.
-- [x] **T3.6** Probar C6 (idempotencia por UUID): reintentar inserción con el mismo `solicitud_uuid`; verificar error 1555 y que `cola_sync` conserva una sola fila con el estado original.
-
----
-
-## Bloque 4 — Uso de OpenCode Build (pendiente — consigna 4.a)
-
-- [ ] **T4.1** Usar **OpenCode Build** para revisar `movil/schema_sqlite.sql`: verificar que todas las tablas tienen `STRICT`, que las restricciones `CHECK` y `FOREIGN KEY` están presentes y que los tipos de columna son correctos. Registrar la salida en `docs/bitacora_ia.md`.
-- [ ] **T4.2** Usar **OpenCode Build** para revisar `movil/pruebas_sqlite.sql`: confirmar que los bloques `BEGIN/COMMIT` y `BEGIN/ROLLBACK` cubren los tres escenarios (commit exitoso, rollback por CHECK, rollback por FK). Registrar hallazgos en `docs/bitacora_ia.md`.
-- [ ] **T4.3** Usar **OpenCode Build** para revisar `movil/semaforo.sql`: verificar que el `UPDATE` de `cola_sync` solo afecta filas con `estado = 'PENDIENTE'`, que los tres estados (`RECHAZADO`, `CONFLICTO`, `SIMULADO_APROBADO`) están cubiertos y que el orden de prioridad es correcto. Registrar hallazgos en `docs/bitacora_ia.md`.
-- [ ] **T4.4** Contrastar en PostgreSQL y SQLite los hallazgos reportados por OpenCode Build: ejecutar las consultas de verificación indicadas y documentar los resultados reales en `docs/bitacora_ia.md`.
-- [ ] **T4.5** Completar `docs/DUIA.md` con la declaración oficial de uso de IA, incluyendo las interacciones de OpenCode Build de T4.1–T4.4.
+**Antes de presentar:** completar datos institucionales, firma y formulario oficial de DUIA si la cátedra lo entrega. El ensayo de defensa de 10 minutos se realiza en clase.
