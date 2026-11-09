@@ -12,7 +12,7 @@ La instantánea `movil/servidor_snapshot.csv` **sí es el archivo real exportado
 
 **Verificación de los CSV históricos (08/11/2026):** se contrastaron los cuatro archivos originales aportados por el estudiante, cada uno con **50.010 productos e IDs únicos**. El CSV inicial coincide byte a byte con `movil/servidor_snapshot.csv`. Respecto del snapshot anterior, C2 modifica **solo el precio del producto 1** (250000 → 280000 centavos), C3 modifica **solo el stock del producto 2** (15 → 4) y C4 modifica **solo disponibilidad/baja lógica del producto 3** (`True/False` → `False/True`). `snapshot_c2`, `snapshot_c3` y `snapshot_c4` de la SQLite original coinciden exactamente con los archivos correspondientes, incluidas las fechas de captura. `snapshot_servidor` coincide con C4 en **todos los campos de negocio**; conserva fechas de captura anteriores para las filas no actualizadas porque los casos se aplicaron a los productos afectados, no se recargó toda la tabla. Los CSV históricos C2-C4 se usan como evidencia de verificación y **no se agregan al ZIP** porque la consigna de entrega pide un único CSV inicial.
 
-**Pendientes genuinos:** generar/conservar en Kiro los specs, revisar todos los scripts con OpenCode Plan y dejar la evidencia; completar la DUIA oficial de cátedra. No atribuir a esas herramientas una ejecución que todavía no se hizo.
+**Revisión 3.c:** realizada con OpenCode en modo Plan. Se documentaron y contrastaron tres hallazgos de U2, U3 y U8; uno se descartó con fundamento. **Pendientes genuinos:** registrar la especificación en Kiro, el uso de OpenCode Build según la consigna y completar la DUIA oficial. No atribuir a esas herramientas una ejecución que todavía no se hizo.
 
 ## Estructura exacta de la entrega
 
@@ -90,6 +90,6 @@ FROM snapshot_servidor;
 
 ## Documentación y defensa
 
-`docs/informe.pdf` (máximo seis páginas) resume 1.a, 2.c, 3.a, 3.b y 3.c, con evidencias. `docs/kiro/` incluye borradores propuestos de EARS/diseño/tareas que deben registrarse y validarse **realmente en Kiro**. `docs/bitacora_ia.md` refleja el uso real de ChatGPT y pendientes de otras herramientas. `docs/DUIA.md` es un borrador: completar y adjuntar la Declaración oficial exigida por la cátedra.
+`docs/informe.pdf` (máximo seis páginas) resume 1.a, 2.c, 3.a, 3.b y 3.c, con evidencias. `docs/kiro/` incluye borradores propuestos de EARS/diseño/tareas que deben registrarse y validarse **realmente en Kiro**. `docs/bitacora_ia.md` refleja el uso real de ChatGPT, la revisión de OpenCode Plan y las actividades pendientes de Kiro/OpenCode Build. `docs/DUIA.md` es un borrador: completar y adjuntar la Declaración oficial exigida por la cátedra.
 
-Ensayo de 10 minutos: explicar fuente de verdad, mostrar C2 (primer `CONFLICTO` y reintento), demostrar una restricción en Error Log y justificar un hallazgo del code review. Se debe ejecutar efectivamente OpenCode Plan antes de atribuirle cualquier observación.
+Ensayo de 10 minutos: explicar fuente de verdad, mostrar C2 (primer `CONFLICTO` y reintento), demostrar una restricción en Error Log y justificar un hallazgo del code review. El análisis con OpenCode Plan se realizó; el equipo contrastó tres hallazgos con las consultas indicadas en el informe.

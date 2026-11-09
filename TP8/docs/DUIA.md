@@ -6,4 +6,6 @@ Durante el desarrollo de este TP se empleó **ChatGPT** como asistencia conversa
 
 Se utilizaron datos de prueba. No se enviaron contraseñas ni datos personales de clientes a SQLite. `SIMULADO_APROBADO` fue interpretado exclusivamente como verificación local, no como venta confirmada.
 
-**Pendiente de completar de forma veraz antes de presentar:** identificación de integrantes responsables, fecha final, salidas y prompts auténticos de Kiro y OpenCode cuando se hayan ejecutado, decisiones humanas sobre cada sugerencia del code review y el formulario **oficial** de Declaración de Uso de IA de la cátedra, si fuera distinto a este borrador. No se declara haber utilizado Kiro/OpenCode en TP8 hasta contar con evidencia real.
+También se utilizó **OpenCode en el agente Plan** para revisar scripts de distintas unidades sin modificarlos. Su respuesta fue contrastada con consultas reales en SQLite y PostgreSQL: unicidad de la instantánea, definición de columnas generadas/obligatorias y EXPLAIN del índice por precio. Se aceptaron dos observaciones y se descartó la afirmación de que el índice eliminaba necesariamente el Sort. Los detalles figuran en `bitacora_ia.md`.
+
+**Pendiente de completar antes de presentar:** integrantes responsables, fecha final, registro auténtico de la actividad de Kiro y de OpenCode Build, y formulario **oficial** de Declaración de Uso de IA de la cátedra, si corresponde. No se atribuyen a Kiro/OpenCode Build acciones todavía no realizadas.
