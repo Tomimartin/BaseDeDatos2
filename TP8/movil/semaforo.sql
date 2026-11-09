@@ -8,15 +8,20 @@ WITH conteos AS (
            COUNT(i.producto_id) AS n_items,
            SUM(CASE WHEN i.producto_id IS NOT NULL AND s.producto_id IS NULL THEN 1 ELSE 0 END) AS ausentes,
            SUM(CASE WHEN s.producto_id IS NOT NULL
-                     AND LOWER(TRIM(CAST(s.eliminado AS TEXT))) IN ('true','t','1')
+                     AND (LOWER(TRIM(CAST(s.eliminado AS TEXT))) IN ('true','t','1')
+                          OR s.eliminado IS NULL)
                     THEN 1 ELSE 0 END) AS bajas,
            SUM(CASE WHEN s.producto_id IS NOT NULL
-                     AND LOWER(TRIM(CAST(s.disponible AS TEXT))) NOT IN ('true','t','1')
+                     AND (s.disponible IS NULL
+                          OR LOWER(TRIM(CAST(s.disponible AS TEXT))) NOT IN ('true','t','1'))
                     THEN 1 ELSE 0 END) AS no_disponibles,
-           SUM(CASE WHEN s.producto_id IS NOT NULL AND i.cantidad > CAST(s.stock AS INTEGER)
+           SUM(CASE WHEN s.producto_id IS NOT NULL
+                     AND (CAST(s.stock AS INTEGER) IS NULL
+                          OR i.cantidad > CAST(s.stock AS INTEGER))
                     THEN 1 ELSE 0 END) AS sin_stock,
            SUM(CASE WHEN s.producto_id IS NOT NULL
-                     AND i.precio_centavos_visto <> CAST(s.precio_centavos AS INTEGER)
+                     AND (CAST(s.precio_centavos AS INTEGER) IS NULL
+                          OR i.precio_centavos_visto <> CAST(s.precio_centavos AS INTEGER))
                     THEN 1 ELSE 0 END) AS cambios_precio
     FROM cola_sync c
     LEFT JOIN item_borrador i ON i.id_local = c.id_local

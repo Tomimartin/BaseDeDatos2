@@ -1,6 +1,6 @@
 # Bitácora de uso de IA - TP8 Food Store
 
-> Se documentan interacciones efectivamente ocurridas. OpenCode Plan se utilizó para la revisión 3.c; Kiro y OpenCode Build todavía no se ejecutaron en este TP.
+> Se documentan interacciones efectivamente ocurridas. OpenCode Plan se utilizó para la revisión 3.c; OpenCode Build se utilizó para la revisión y verificación de la consigna 4.a. Kiro no se ejecutó en este TP.
 
 | Solicitud hecha a ChatGPT | Qué se aceptó | Qué se corrigió/descartó y por qué | Validación humana |
 |---|---|---|---|
@@ -23,9 +23,24 @@
 
 **Alcance y pendientes:** Son tres hallazgos verificados de tres unidades distintas. No se cambió el código de los TPs anteriores ni se realizaron escrituras como parte de esta revisión. Las capturas/salidas originales las conserva el estudiante; el informe documenta los resultados observados.
 
+## OpenCode Build - Revisión y verificación de la consigna 4.a
+
+**Fecha:** 09/11/2026. **Solicitud del estudiante:** revisar `movil/semaforo.sql` contra el esquema real y el diseño, aplicar solo el parche de NULL, verificar C2-C7 y los casos NULL sobre una copia temporal, actualizar `design.md`, registrar las pruebas y completar el borrador de la DUIA sin agregar archivos a la entrega.
+
+| Decisión | Fundamento | Verificación |
+|---|---|---|
+| Aplicar únicamente el parche NULL en `movil/semaforo.sql`. | Un `NULL` en `eliminado`, `disponible`, `stock` o `precio_centavos` no debe considerarse coincidencia. | N1-N4 pasaron de `SIMULADO_APROBADO` a `RECHAZADO`/`CONFLICTO`; N5-N7 sin regresión. |
+| Conservar columnas, tablas y el índice `ux_cola_una_pendiente`; no agregar `evaluado_en`. | La implementación real usa `id_local`, `precio_centavos_visto`, `creada_en`, `usuario_id_servidor` y `forma_pago`. | `git diff` de `semaforo.sql` limitado a las cuatro condiciones; esquema y `pruebas_sqlite.sql` sin cambios. |
+| Mantener la PK de `solicitud_uuid` y el índice parcial. | La PK cubre el UUID duplicado (1555) y el índice parcial cubre dos `PENDIENTE` del mismo borrador con UUID distinto (2067). | C6: 1555 con una sola fila y estado conservado; segunda `PENDIENTE` mismo borrador: 2067. |
+| Verificar sobre una copia temporal de `foodstore_movil.db`. | Evitar modificar la base original y PostgreSQL. | `sha256` antes/después `43ca12c19644f707ed30c86092736d5b598f178c89b35dd043b7d759377f90f1`; `integrity_check=ok`; `foreign_key_check` sin filas. |
+
+**Pruebas ejecutadas con Python sqlite3 sobre la copia temporal:** C2 `CONFLICTO`, C3 `RECHAZADO`, C4 `RECHAZADO`, C5 `SIMULADO_APROBADO`; N1 `RECHAZADO`, N2 `CONFLICTO`, N3 `RECHAZADO`, N4 `RECHAZADO`; controles N5 `SIMULADO_APROBADO`, N6 `RECHAZADO`, N7 `RECHAZADO`; C6 error 1555; C7 errores 275 (CHECK) y 787 (FK), sin filas inválidas. Después del semáforo: 0 solicitudes `PENDIENTE`, `integrity_check=ok` y `foreign_key_check` sin filas.
+
+**Documentación:** `design.md` se actualizó a los nombres reales (`id_local`, `precio_centavos_visto`, `creada_en`), a la vista `v_catalogo_disponible`, a la PK compuesta de ítems y a `ux_cola_una_pendiente`. La DUIA se completó con el uso real de OpenCode Build; no se inventaron interacciones ni datos personales. **Pendiente:** la contrastación con PostgreSQL de T4.4 no se realizó en esta pasada porque la consigna pidió no modificar ni tocar PostgreSQL; solo se verificó SQLite sobre copia temporal.
+
 ## Actividades de IA pendientes y su registro
 
 - Abrir requirements.md, design.md y tasks.md en **Kiro** y registrar la interacción real.
-- Ejecutar **OpenCode** sobre tareas del TP8 y guardar comandos/salidas reales.
+- **Realizado:** **OpenCode Build** revisó y verificó la consigna 4.a; la salida completa quedó en la carpeta temporal de verificación y no se agregó a la entrega.
 - **Realizado:** revisión de scripts con **OpenCode agente Plan**; tres hallazgos seleccionados y contrastados con SQLite/PostgreSQL, con un descarte fundamentado.
 - Adjuntar la **DUIA oficial** según formato de cátedra, si existe una plantilla o formulario específico.
